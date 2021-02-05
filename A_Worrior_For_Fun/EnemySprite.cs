@@ -14,7 +14,7 @@ using A_Worrior_For_Fun.Collisions;
 namespace A_Worrior_For_Fun
 {
     /// <summary>
-    /// The class assisting in the creation of enemy sprites
+    /// The class assisting in the creation of enemy sprites 
     /// </summary>
     public class EnemySprite
     {
