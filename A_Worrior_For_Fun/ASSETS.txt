@@ -1,1 +1,17 @@
 ﻿Content/colored-packed.png - created by Kinney as part of his 1-Bit Pack on OpenGameArt.Org (https://opengameart.org/content/1-bit-pack), released under public domain
+
+Content/sawsquarenoise - Boss Theme.mp3 - created by sawsquarenoise (https://freemusicarchive.org/genre/Chiptune)
+
+Content/sawsquarenoise - Stage 1.mp3 - created by sawsquarenoise (https://freemusicarchive.org/genre/Chiptune)
+
+Content/BasicEnemyHit.wav - created be Jackson Carder for this project
+
+Content/GameOver.wav - created be Jackson Carder for this project
+
+Content/Hit_Hurt10.wav - created be Jackson Carder for this project
+
+Content/LevelComplete.wav - created be Jackson Carder for this project
+
+Content/PlayerHit.wav - created be Jackson Carder for this project
+
+Content/SwordSwing.wav - created be Jackson Carder for this project
