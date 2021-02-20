@@ -24,7 +24,24 @@ namespace A_Worrior_For_Fun
 
         private Texture2D texture;
 
-        private Vector2 position = new Vector2(3, 3);
+        private Vector2 position = new Vector2(3, 432);
+
+        /// <summary>
+        /// Default
+        /// </summary>
+        public HealthSprite()
+        {
+            Lives = 4;
+        }
+
+        /// <summary>
+        /// Constructor for levels
+        /// </summary>
+        /// <param name="lives"></param>
+        public HealthSprite(int lives)
+        {
+            Lives = lives;
+        }
 
         /// <summary>
         /// Loads the content associated with the Health Sprite.

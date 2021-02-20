@@ -5,9 +5,23 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Media;
 
 namespace A_Worrior_For_Fun
 {
+    /// <summary>
+    /// Enum used in driving the states of the game.
+    /// </summary>
+    public enum LevelState
+    {
+        Start, 
+        Zero,
+        One, 
+        EndW,
+        EndL
+    }
+
     /// <summary>
     /// The main driving class of the game.
     /// </summary>
@@ -16,12 +30,24 @@ namespace A_Worrior_For_Fun
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
-        //Sprites and helper variables
-        private HealthSprite health;
-        private PlayerSprite player;
-        private EnemySprite[] enemies;
+        ////Sprites and helper variables
+        //private HealthSprite health;
+        //private PlayerSprite player;
+        //private EnemySprite[] enemies;
         private SpriteFont bangers;
-        private int numEnimies = 4;
+
+        private KeyboardState keyboardState;
+        private KeyboardState previousKeyboardState;
+        private GamePadState gamePadState;
+        private GamePadState previousGamePadState;
+
+        private LevelState levelState = LevelState.Start; //
+        private Level0 level0;
+        private Level1 level1;
+
+        private Song song1;
+        private SoundEffect levelComplete;
+        private SoundEffect lose;
 
         /// <summary>
         /// Constructorfor the game.
@@ -38,19 +64,25 @@ namespace A_Worrior_For_Fun
         /// </summary>
         protected override void Initialize()
         {
-            System.Random rand = new System.Random();
-            // TODO: Add your initialization logic here
-            health = new HealthSprite();
-            player = new PlayerSprite();
+            //System.Random rand = new System.Random();
+            //// TODO: Add your initialization logic here
+            level0 = new Level0();
+            level1 = new Level1();
 
-            //initializes the enemies
-            enemies = new EnemySprite[]
+            //Levels state machine
+            switch (levelState)
             {
-                new EnemySprite(new Vector2(200, 100), false),
-                new EnemySprite(new Vector2(410, 130), true),
-                new EnemySprite(new Vector2(460, 250), true),
-                new EnemySprite(new Vector2(430, 350), false)
-            };
+                case LevelState.Start:
+                    break;
+                case LevelState.Zero:
+                    break;
+                case LevelState.One:
+                    break;
+                case LevelState.EndW:
+                    break;
+                case LevelState.EndL:
+                    break;
+            }
 
             base.Initialize();
         }
@@ -62,15 +94,34 @@ namespace A_Worrior_For_Fun
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            // TODO: use this.Content to load your game content here
-            health.LoadContent(Content);
-            player.LoadContent(Content);
+            //// TODO: use this.Content to load your game content here
 
-            //Loads the enemies
-            foreach(var enemy in enemies)
+            //Levels state machine
+            switch (levelState)
             {
-                enemy.LoadContent(Content);
+                case LevelState.Start:
+                    level0.LoadContent(Content);
+                    break;
+                case LevelState.Zero:
+                    level1.LoadContent(Content);
+                    break;
+                case LevelState.One:
+                    //nothing yet.
+                    level1.LoadContent(Content);
+                    break;
+                case LevelState.EndW:
+                    break;
+                case LevelState.EndL:
+                    break;
             }
+
+            song1 = Content.Load<Song>("sawsquarenoise - Stage 1");
+            MediaPlayer.IsRepeating = true;
+            MediaPlayer.Volume = 0.25f;
+            MediaPlayer.Play(song1);
+
+            levelComplete = Content.Load<SoundEffect>("LevelComplete");
+            lose = Content.Load<SoundEffect>("GameOver");
 
             bangers = Content.Load<SpriteFont>("Bangers");
         }
@@ -81,41 +132,68 @@ namespace A_Worrior_For_Fun
         /// <param name="gameTime">The game's time</param>
         protected override void Update(GameTime gameTime)
         {
+            previousGamePadState = gamePadState;
+            gamePadState = GamePad.GetState(0);
+            previousKeyboardState = keyboardState;
+            keyboardState = Keyboard.GetState();
+
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            // TODO: Add your update logic here
-            player.Update(gameTime);
-
-            //resets color
-            player.Color = Color.White;
-
-            foreach(var enemy in enemies)
+            //Levels state machine
+            switch (levelState)
             {
-                enemy.Color = Color.White;
-            }
-            
-            foreach(var enemy in enemies)
-            {
-                enemy.Update(gameTime);
-                if(!enemy.Killed && enemy.Bounds.CollidesWith(player.Bounds))
-                {
-                    health.Lives--;
-                    player.Color = Color.Red;
-                    player.Position = new Vector2(100, 250);
-                }
-                //Yo Jack put a switch statement here to fix the sword bug.
-                if(!enemy.Killed && player.Attack != Attack.None && (enemy.Bounds.CollidesWith(player.SwordBoundUp) || enemy.Bounds.CollidesWith(player.SwordBoundRight) || enemy.Bounds.CollidesWith(player.SwordBoundDown) || enemy.Bounds.CollidesWith(player.SwordBoundLeft)))
-                {
-                    enemy.Color = Color.Red;
-                    numEnimies--;
-                    enemy.Killed = true;
-                }
-            }
+                case LevelState.Start:
+                    if(keyboardState.IsKeyDown(Keys.Space) && previousKeyboardState.IsKeyUp(Keys.Space))
+                    {
+                        levelState = LevelState.Zero;
+                    }
+                    break;
+                case LevelState.Zero:
+                    level0.Update(gameTime);
+                    if(level0.Won)
+                    {
+                        levelComplete.Play();
+                        levelState = LevelState.One;
+                        level1 = new Level1(level0.HP);
+                        LoadContent();
+                    }
+                    if(level0.Lost)
+                    {
+                        lose.Play();
+                        levelState = LevelState.EndL;
+                    }
+                    break;
+                case LevelState.One:
+                    level1.Update(gameTime);
+                    if(level1.Won)
+                    {
+                        levelComplete.Play();
+                        levelState = LevelState.EndW;
 
-            if(health.Lives <= 1)
-            {
-                player.Dead = true;
+                    }
+                    if (level1.Lost)
+                    {
+                        lose.Play();
+                        levelState = LevelState.EndL;
+                    }
+                    break;
+                case LevelState.EndW:
+                    if (keyboardState.IsKeyDown(Keys.Space) && previousKeyboardState.IsKeyUp(Keys.Space))
+                    {
+                        levelState = LevelState.Start;
+                        level0 = new Level0();
+                        LoadContent();
+                    }
+                    break;
+                case LevelState.EndL:
+                    if(keyboardState.IsKeyDown(Keys.Space) && previousKeyboardState.IsKeyUp(Keys.Space))
+                    {
+                        levelState = LevelState.Start;
+                        level0 = new Level0();
+                        LoadContent();
+                    }
+                    break;
             }
 
             base.Update(gameTime);
@@ -133,29 +211,31 @@ namespace A_Worrior_For_Fun
 
             _spriteBatch.Begin();
 
-            foreach(var enemy in enemies)
+            //Levels state machine
+            switch (levelState)
             {
-                enemy.Draw(gameTime, _spriteBatch);
+                case LevelState.Start:
+                    _spriteBatch.DrawString(bangers,      "Welcome Warrior For Fun!", new Vector2(175, 100), Color.White, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0);
+                    _spriteBatch.DrawString(bangers, "WASD to move and arrows to attack", new Vector2(105, 150), Color.White, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0);
+                    _spriteBatch.DrawString(bangers,       "Press [Space] to start", new Vector2(195, 200), Color.White, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0);
+                    break;
+                case LevelState.Zero:
+                    level0.Draw(gameTime, _spriteBatch);
+                    break;
+                case LevelState.One:
+                    level1.Draw(gameTime, _spriteBatch);
+                    break;
+                case LevelState.EndW:
+                    _spriteBatch.DrawString(bangers, "You Have WON!!!!", new Vector2(243, 100), Color.Gold, 0f, new Vector2(0, 0), 1.25f, SpriteEffects.None, 0);
+                    _spriteBatch.DrawString(bangers, "Press [Space] to play again", new Vector2(135, 150), Color.Gold, 0f, new Vector2(0, 0), 1.25f, SpriteEffects.None, 0);
+                    _spriteBatch.DrawString(bangers, "or [Esc] to quit", new Vector2(235, 200), Color.Gold, 0f, new Vector2(0, 0), 1.25f, SpriteEffects.None, 0);
+                    break;
+                case LevelState.EndL:
+                    _spriteBatch.DrawString(bangers,       "You Have DIED!!!", new Vector2(243, 100), Color.Red, 0f, new Vector2(0,0), 1.25f, SpriteEffects.None, 0);
+                    _spriteBatch.DrawString(bangers, "Press [Space] to play again", new Vector2(135, 150), Color.Red, 0f, new Vector2(0, 0), 1.25f, SpriteEffects.None, 0);
+                    _spriteBatch.DrawString(bangers,       "or [Esc] to quit", new Vector2(235, 200), Color.Red, 0f, new Vector2(0, 0), 1.25f, SpriteEffects.None, 0);
+                    break;
             }
-
-            player.Draw(gameTime, _spriteBatch);
-            health.Draw(gameTime, _spriteBatch);
-
-            if (numEnimies <= 0)
-            {
-                _spriteBatch.DrawString(bangers, "YOU WIN!!", new Vector2(50, 3), Color.Gold);
-            }
-            else if (!player.Dead)
-            {
-                _spriteBatch.DrawString(bangers, "WASD to move, Arrows to attack.", new Vector2(50, 3), Color.White);
-            }
-            else
-            {
-                _spriteBatch.DrawString(bangers, "You are DEAD!!", new Vector2(50, 3), Color.Red);
-            }
-
-            
-            
 
             _spriteBatch.End();
 

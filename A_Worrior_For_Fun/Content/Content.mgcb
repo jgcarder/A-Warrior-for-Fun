@@ -20,6 +20,12 @@
 /processorParam:TextureFormat=Compressed
 /build:Bangers.spritefont
 
+#begin BasicEnemyHit.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:BasicEnemyHit.wav
+
 #begin colored_packed.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -31,4 +37,46 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:colored_packed.png
+
+#begin GameOver.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:GameOver.wav
+
+#begin Hit_Hurt10.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Hit_Hurt10.wav
+
+#begin LevelComplete.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:LevelComplete.wav
+
+#begin PlayerHit.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:PlayerHit.wav
+
+#begin sawsquarenoise - Boss Theme.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:sawsquarenoise - Boss Theme.mp3
+
+#begin sawsquarenoise - Stage 1.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:sawsquarenoise - Stage 1.mp3
+
+#begin SwordSwing.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SwordSwing.wav
 

@@ -79,16 +79,20 @@ namespace A_Worrior_For_Fun
                 else leftRight = true;
                 timer -= 2.0;
             }
-
-            switch(leftRight)
+            
+            if(!Killed)
             {
-                case true:
-                    position += new Vector2(-1.5f, 0) * 100 * (float)gameTime.ElapsedGameTime.TotalSeconds;
-                    break;
-                case false:
-                    position += new Vector2(1.5f, 0) * 100 * (float)gameTime.ElapsedGameTime.TotalSeconds;
-                    break;
+                switch (leftRight)
+                {
+                    case true:
+                        position += new Vector2(-1.2f, 0) * 100 * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                        break;
+                    case false:
+                        position += new Vector2(1.2f, 0) * 100 * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                        break;
+                }
             }
+            
 
             bounds.Center = position;
         }
@@ -100,26 +104,29 @@ namespace A_Worrior_For_Fun
         /// <param name="spriteBatch">The strite batch</param>
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-
-            //checks to see if an enemy is killed
-            if(Killed)
-            {
-                return;
-            }
-
+            var source = new Rectangle();
+            SpriteEffects spriteEffect = new SpriteEffects();
             //updates the animation
             animationTimer += gameTime.ElapsedGameTime.TotalSeconds;
 
-            if(animationTimer > 0.2)
+            if (animationTimer > 0.2)
             {
                 animationFrame++;
                 if (animationFrame > 5) animationFrame = 1;
                 animationTimer -= 0.2;
             }
 
-            SpriteEffects spriteEffect = (leftRight) ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+            //checks to see if an enemy is killed
+            if (Killed)
+            {
+                source = new Rectangle(368, 112, 16, 16);
+            }
+            else
+            {
+                source = new Rectangle((animationFrame * 16) + 272, 112, 16, 16);
+                spriteEffect = (leftRight) ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+            }
 
-            var source = new Rectangle((animationFrame*16) + 272, 112, 16, 16);
             spriteBatch.Draw(texture, position, source, color, 0f, new Vector2(16, 16), 2f, spriteEffect, 0f);
         }
 
