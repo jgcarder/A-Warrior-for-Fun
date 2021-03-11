@@ -7,6 +7,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Media;
+using A_Worrior_For_Fun.Screens;
+using A_Worrior_For_Fun.StateManagement;
 
 namespace A_Worrior_For_Fun
 {
@@ -29,6 +31,7 @@ namespace A_Worrior_For_Fun
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
+        private readonly ScreenManager _screenManager;
 
         ////Sprites and helper variables
         //private HealthSprite health;
@@ -57,6 +60,21 @@ namespace A_Worrior_For_Fun
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
+
+            var screenFactory = new ScreenFactory();
+            Services.AddService(typeof(IScreenFactory), screenFactory);
+
+            _screenManager = new ScreenManager(this);
+            Components.Add(_screenManager);
+
+            AddInitialScreens();
+        }
+
+        private void AddInitialScreens()
+        {
+            _screenManager.AddScreen(new BackgroundScreen(), null);
+            _screenManager.AddScreen(new MainMenuScreen(), null);
+            //_screenManager.AddScreen(new SplashScreen(), null);
         }
 
         /// <summary>
