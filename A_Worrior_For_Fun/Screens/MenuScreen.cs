@@ -1,4 +1,8 @@
-﻿using System;
+﻿/* Title: MenuScreen.cs
+ * Author: Jackson Carder
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.Xna.Framework;
@@ -8,8 +12,11 @@ using A_Worrior_For_Fun.StateManagement;
 
 namespace A_Worrior_For_Fun.Screens
 {
+
+    /// <summary>
     // Base class for screens that contain a menu of options. The user can
     // move up and down to select an entry, or cancel to back out of the screen.
+    /// </summary>
     public abstract class MenuScreen : GameScreen
     {
         private readonly List<MenuEntry> _menuEntries = new List<MenuEntry>();
@@ -24,6 +31,10 @@ namespace A_Worrior_For_Fun.Screens
         // Gets the list of menu entries, so derived classes can add or change the menu contents.
         protected IList<MenuEntry> MenuEntries => _menuEntries;
 
+        /// <summary>
+        /// Constructor for the menu screen
+        /// </summary>
+        /// <param name="menuTitle">the title of the menu</param>
         protected MenuScreen(string menuTitle)
         {
             _menuTitle = menuTitle;
@@ -77,11 +88,20 @@ namespace A_Worrior_For_Fun.Screens
                 OnCancel(playerIndex);
         }
 
+        /// <summary>
+        /// Event handler
+        /// </summary>
+        /// <param name="entryIndex">index of the menu entry</param>
+        /// <param name="playerIndex">the player who did it</param>
         protected virtual void OnSelectEntry(int entryIndex, PlayerIndex playerIndex)
         {
             _menuEntries[entryIndex].OnSelectEntry(playerIndex);
         }
 
+        /// <summary>
+        /// The handler for when cancel is selected
+        /// </summary>
+        /// <param name="playerIndex">the player who canceled it</param>
         protected virtual void OnCancel(PlayerIndex playerIndex)
         {
             ExitScreen();
@@ -124,6 +144,12 @@ namespace A_Worrior_For_Fun.Screens
             }
         }
 
+        /// <summary>
+        /// Updates the menu
+        /// </summary>
+        /// <param name="gameTime">The game's time</param>
+        /// <param name="otherScreenHasFocus">A bool if another screen is selected</param>
+        /// <param name="coveredByOtherScreen">A bool if the screen is covered</param>
         public override void Update(GameTime gameTime, bool otherScreenHasFocus, bool coveredByOtherScreen)
         {
             base.Update(gameTime, otherScreenHasFocus, coveredByOtherScreen);
@@ -136,6 +162,10 @@ namespace A_Worrior_For_Fun.Screens
             }
         }
 
+        /// <summary>
+        /// Draws the menu
+        /// </summary>
+        /// <param name="gameTime">The game's time</param>
         public override void Draw(GameTime gameTime)
         {
             // make sure our entries are in the right place before we draw them

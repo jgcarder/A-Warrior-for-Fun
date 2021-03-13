@@ -1,4 +1,8 @@
-﻿using System;
+﻿/* Title: MessageBoxScreen.cs
+ * Author: Jackson Carder
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.Xna.Framework;
@@ -54,6 +58,11 @@ namespace A_Worrior_For_Fun.Screens
             _gradientTexture = content.Load<Texture2D>("gradient");
         }
 
+        /// <summary>
+        /// Handles the input
+        /// </summary>
+        /// <param name="gameTime">The game's time</param>
+        /// <param name="input">the input state</param>
         public override void HandleInput(GameTime gameTime, InputState input)
         {
             PlayerIndex playerIndex;
@@ -75,6 +84,10 @@ namespace A_Worrior_For_Fun.Screens
             }
         }
 
+        /// <summary>
+        /// Draws the message box
+        /// </summary>
+        /// <param name="gameTime">The game's time</param>
         public override void Draw(GameTime gameTime)
         {
             var spriteBatch = ScreenManager.SpriteBatch;

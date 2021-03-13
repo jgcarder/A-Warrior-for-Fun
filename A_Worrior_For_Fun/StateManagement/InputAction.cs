@@ -47,7 +47,7 @@ namespace A_Worrior_For_Fun.StateManagement
         }
 
         /// <summary>
-        /// Determines if he action has occured. If playerToTest is null, the player parameter will be the player that performed the action
+        /// Determines if the action has occured. If playerToTest is null, the player parameter will be the player that performed the action
         /// </summary> 
         /// <param name="stateToTest">The InputState object to test</param>
         /// <param name="playerToTest">If not null, specifies the player (0-3) whose input should be tested</param>

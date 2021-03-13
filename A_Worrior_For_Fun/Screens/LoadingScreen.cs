@@ -1,4 +1,8 @@
-﻿using System;
+﻿/* Title: LoadingScreen.cs
+ * Author: Jackson Carder
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.Xna.Framework;
@@ -6,13 +10,21 @@ using A_Worrior_For_Fun.StateManagement;
 
 namespace A_Worrior_For_Fun.Screens
 {
+    /// <summary>
+    /// A loading screen
+    /// </summary>
     public class LoadingScreen : GameScreen
     {
         private readonly bool _loadingIsSlow;
         private bool _otherScreensAreGone;
         private readonly GameScreen[] _screensToLoad;
 
-        // Constructor is private: loading screens should be activated via the static Load method instead.
+        /// <summary>
+        /// The constructor for the loading screen
+        /// </summary>
+        /// <param name="screenManager">The screen manager in charge</param>
+        /// <param name="loadingIsSlow">A bool for slow loading</param>
+        /// <param name="screensToLoad">A list of screens to load</param>
         private LoadingScreen(ScreenManager screenManager, bool loadingIsSlow, GameScreen[] screensToLoad)
         {
             _loadingIsSlow = loadingIsSlow;
@@ -21,7 +33,13 @@ namespace A_Worrior_For_Fun.Screens
             TransitionOnTime = TimeSpan.FromSeconds(0.5);
         }
 
-        // Activates the loading screen.
+        /// <summary>
+        /// Activates the loading screen
+        /// </summary>
+        /// <param name="screenManager">The screen manager in charge</param>
+        /// <param name="loadingIsSlow">A bool for if loading is slowed</param>
+        /// <param name="controllingPlayer">The controlling player</param>
+        /// <param name="screensToLoad">The list of screens to load</param>
         public static void Load(ScreenManager screenManager, bool loadingIsSlow,
                                 PlayerIndex? controllingPlayer, params GameScreen[] screensToLoad)
         {
@@ -35,6 +53,12 @@ namespace A_Worrior_For_Fun.Screens
             screenManager.AddScreen(loadingScreen, controllingPlayer);
         }
 
+        /// <summary>
+        /// Updates the screen
+        /// </summary>
+        /// <param name="gameTime">The game's time</param>
+        /// <param name="otherScreenHasFocus">A bool for if anothert screen has focus</param>
+        /// <param name="coveredByOtherScreen">A bool for if another screen is on top</param>
         public override void Update(GameTime gameTime, bool otherScreenHasFocus, bool coveredByOtherScreen)
         {
             base.Update(gameTime, otherScreenHasFocus, coveredByOtherScreen);
@@ -58,6 +82,10 @@ namespace A_Worrior_For_Fun.Screens
             }
         }
 
+        /// <summary>
+        /// Draws the loading screen
+        /// </summary>
+        /// <param name="gameTime">The game's time</param>
         public override void Draw(GameTime gameTime)
         {
             // If we are the only active screen, that means all the previous screens

@@ -4,14 +4,20 @@ Content/sawsquarenoise - Boss Theme.mp3 - created by sawsquarenoise (https://fre
 
 Content/sawsquarenoise - Stage 1.mp3 - created by sawsquarenoise (https://freemusicarchive.org/genre/Chiptune)
 
-Content/BasicEnemyHit.wav - created be Jackson Carder for this project
+Content/Lithis - Aaaaa.mp3 - created by Lithis (https://freemusicarchive.org/genre/Chiptune)
 
-Content/GameOver.wav - created be Jackson Carder for this project
+Content/Wizwars - 8 Bit Raceway.mp3 - created by Wizwars (https://freemusicarchive.org/genre/Chiptune)
 
-Content/Hit_Hurt10.wav - created be Jackson Carder for this project
+Content/BasicEnemyHit.wav - created by Jackson Carder for this project
 
-Content/LevelComplete.wav - created be Jackson Carder for this project
+Content/GameOver.wav - created by Jackson Carder for this project
 
-Content/PlayerHit.wav - created be Jackson Carder for this project
+Content/Hit_Hurt10.wav - created by Jackson Carder for this project
 
-Content/SwordSwing.wav - created be Jackson Carder for this project
+Content/LevelComplete.wav - created by Jackson Carder for this project
+
+Content/PlayerHit.wav - created by Jackson Carder for this project
+
+Content/SwordSwing.wav - created by Jackson Carder for this project
+
+All blanks avaiolable at https://github.com/tomizechsterson/game-state-management-monogame

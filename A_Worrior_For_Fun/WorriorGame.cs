@@ -7,36 +7,27 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Media;
+using Microsoft.Xna.Framework.Content;
 using A_Worrior_For_Fun.Screens;
 using A_Worrior_For_Fun.StateManagement;
 
 namespace A_Worrior_For_Fun
 {
     /// <summary>
-    /// Enum used in driving the states of the game.
-    /// </summary>
-    public enum LevelState
-    {
-        Start, 
-        Zero,
-        One, 
-        EndW,
-        EndL
-    }
-
-    /// <summary>
     /// The main driving class of the game.
     /// </summary>
     public class WorriorGame : Game
     {
         private GraphicsDeviceManager _graphics;
-        private SpriteBatch _spriteBatch;
+        //private SpriteBatch _spriteBatch;
         private readonly ScreenManager _screenManager;
 
         ////Sprites and helper variables
         //private HealthSprite health;
         //private PlayerSprite player;
         //private EnemySprite[] enemies;
+        
+        /*
         private SpriteFont bangers;
 
         private KeyboardState keyboardState;
@@ -44,13 +35,13 @@ namespace A_Worrior_For_Fun
         private GamePadState gamePadState;
         private GamePadState previousGamePadState;
 
-        private LevelState levelState = LevelState.Start; //
         private Level0 level0;
         private Level1 level1;
 
         private Song song1;
         private SoundEffect levelComplete;
         private SoundEffect lose;
+        */
 
         /// <summary>
         /// Constructorfor the game.
@@ -72,8 +63,12 @@ namespace A_Worrior_For_Fun
 
         private void AddInitialScreens()
         {
+            MainMenuScreen mms = new MainMenuScreen();
+            mms.ContentPasser(Content);
+            mms.SongStart();
+
             _screenManager.AddScreen(new BackgroundScreen(), null);
-            _screenManager.AddScreen(new MainMenuScreen(), null);
+            _screenManager.AddScreen(mms, null);
             //_screenManager.AddScreen(new SplashScreen(), null);
         }
 
@@ -84,6 +79,8 @@ namespace A_Worrior_For_Fun
         {
             //System.Random rand = new System.Random();
             //// TODO: Add your initialization logic here
+            
+            /* Move to gameplay screen
             level0 = new Level0();
             level1 = new Level1();
 
@@ -101,6 +98,7 @@ namespace A_Worrior_For_Fun
                 case LevelState.EndL:
                     break;
             }
+            */
 
             base.Initialize();
         }
@@ -110,10 +108,11 @@ namespace A_Worrior_For_Fun
         /// </summary>
         protected override void LoadContent()
         {
-            _spriteBatch = new SpriteBatch(GraphicsDevice);
+            //_spriteBatch = new SpriteBatch(GraphicsDevice);
 
             //// TODO: use this.Content to load your game content here
 
+            /* Move to the gameplay screen
             //Levels state machine
             switch (levelState)
             {
@@ -142,6 +141,7 @@ namespace A_Worrior_For_Fun
             lose = Content.Load<SoundEffect>("GameOver");
 
             bangers = Content.Load<SpriteFont>("Bangers");
+            */
         }
 
         /// <summary>
@@ -150,6 +150,7 @@ namespace A_Worrior_For_Fun
         /// <param name="gameTime">The game's time</param>
         protected override void Update(GameTime gameTime)
         {
+            /*
             previousGamePadState = gamePadState;
             gamePadState = GamePad.GetState(0);
             previousKeyboardState = keyboardState;
@@ -213,6 +214,7 @@ namespace A_Worrior_For_Fun
                     }
                     break;
             }
+            */
 
             base.Update(gameTime);
         }
@@ -227,6 +229,7 @@ namespace A_Worrior_For_Fun
 
             // TODO: Add your drawing code here
 
+            /*
             _spriteBatch.Begin();
 
             //Levels state machine
@@ -256,6 +259,7 @@ namespace A_Worrior_For_Fun
             }
 
             _spriteBatch.End();
+            */
 
             base.Draw(gameTime);
         }

@@ -1,6 +1,11 @@
-﻿using System;
+﻿/* Title: PauseMenuScreen.cs
+ * Author: Jackson Carder
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Text;
+using Microsoft.Xna.Framework.Content;
 using A_Worrior_For_Fun.StateManagement;
 
 namespace A_Worrior_For_Fun.Screens
@@ -9,6 +14,9 @@ namespace A_Worrior_For_Fun.Screens
     // giving the player options to resume or quit.
     public class PauseMenuScreen : MenuScreen
     {
+        /// <summary>
+        /// The constructor
+        /// </summary>
         public PauseMenuScreen() : base("Paused")
         {
             var resumeGameMenuEntry = new MenuEntry("Resume Game");
@@ -21,6 +29,11 @@ namespace A_Worrior_For_Fun.Screens
             MenuEntries.Add(quitGameMenuEntry);
         }
 
+        /// <summary>
+        /// Event handler
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void QuitGameMenuEntrySelected(object sender, PlayerIndexEventArgs e)
         {
             const string message = "Are you sure you want to quit this game?";
@@ -34,7 +47,10 @@ namespace A_Worrior_For_Fun.Screens
         // This uses the loading screen to transition from the game back to the main menu screen.
         private void ConfirmQuitMessageBoxAccepted(object sender, PlayerIndexEventArgs e)
         {
-            LoadingScreen.Load(ScreenManager, false, null, new BackgroundScreen(), new MainMenuScreen());
+            MainMenuScreen mms = new MainMenuScreen();
+            mms.ContentPasser(new ContentManager(ScreenManager.Game.Services, "Content"));
+
+            LoadingScreen.Load(ScreenManager, false, null, new BackgroundScreen(), mms);
         }
     }
 }

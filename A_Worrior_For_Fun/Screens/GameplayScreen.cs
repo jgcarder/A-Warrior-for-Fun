@@ -1,4 +1,8 @@
-﻿using System;
+﻿/* Title: GameplayScreen.cs
+ * Author: Jackson Carder
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading;
@@ -6,26 +10,55 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Media;
 using A_Worrior_For_Fun.StateManagement;
 
 namespace A_Worrior_For_Fun.Screens
 {
-    // This screen implements the actual game logic. It is just a
-    // placeholder to get the idea across: you'll probably want to
-    // put some more interesting gameplay in here!
+    /// <summary>
+    /// Enum used in driving the states of the game.
+    /// </summary>
+    public enum LevelState
+    {
+        Start,
+        Zero,
+        One,
+        EndW,
+        EndL
+    }
+
+    /// <summary>
+    /// The screen that houses the game
+    /// </summary>
     public class GameplayScreen : GameScreen
     {
         private ContentManager _content;
         private SpriteFont _gameFont;
 
-        private Vector2 _playerPosition = new Vector2(100, 100);
-        private Vector2 _enemyPosition = new Vector2(100, 100);
+        private LevelState levelState = LevelState.Start; //Needs to be changed to reflect new system.
+        private Level0 level0;
+        private Level1 level1;
+
+        //private Song song1;
+        private SoundEffect levelComplete;
+        private SoundEffect lose;
+        private SpriteFont bangers;
+
+        private KeyboardState keyboardState;
+        private KeyboardState previousKeyboardState;
+        private GamePadState gamePadState;
+        private GamePadState previousGamePadState;
+
 
         private readonly Random _random = new Random();
 
         private float _pauseAlpha;
         private readonly InputAction _pauseAction;
 
+        /// <summary>
+        /// The constructor for the GameplayScreen
+        /// </summary>
         public GameplayScreen()
         {
             TransitionOnTime = TimeSpan.FromSeconds(1.5);
@@ -34,15 +67,85 @@ namespace A_Worrior_For_Fun.Screens
             _pauseAction = new InputAction(
                 new[] { Buttons.Start, Buttons.Back },
                 new[] { Keys.Back, Keys.Escape }, true);
+
+            level0 = new Level0();
+            level1 = new Level1();
         }
 
-        // Load graphics content for the game
+        /// <summary>
+        /// A helper method that lets the game re-load its data/levels.
+        /// </summary>
+        private void LoadState()
+        {
+            //Levels state machine
+            switch (levelState)
+            {
+                case LevelState.Start:
+                    level0.LoadContent(_content);
+                    break;
+                case LevelState.Zero:
+                    level1.LoadContent(_content);
+                    break;
+                case LevelState.One:
+                    level1.LoadContent(_content);
+                    break;
+                case LevelState.EndW:
+                    break;
+                case LevelState.EndL:
+                    break;
+            }
+
+            //song1 = _content.Load<Song>("sawsquarenoise - Stage 1");
+            //MediaPlayer.IsRepeating = true;
+            //MediaPlayer.Volume = 0.25f;
+            //MediaPlayer.Play(song1);
+
+            levelComplete = _content.Load<SoundEffect>("LevelComplete");
+            lose = _content.Load<SoundEffect>("GameOver");
+
+            bangers = _content.Load<SpriteFont>("Bangers");
+
+            Thread.Sleep(1000);
+            ScreenManager.Game.ResetElapsedTime();
+        }
+
+        /// <summary>
+        /// Loads the content of the screen
+        /// </summary>
         public override void Activate()
         {
             if (_content == null)
                 _content = new ContentManager(ScreenManager.Game.Services, "Content");
 
             _gameFont = _content.Load<SpriteFont>("Bangers");
+            //Levels state machine
+            switch (levelState)
+            {
+                case LevelState.Start:
+                    level0.LoadContent(_content);
+                    break;
+                case LevelState.Zero:
+                    level1.LoadContent(_content);
+                    break;
+                case LevelState.One:
+                    //nothing yet.
+                    level1.LoadContent(_content);
+                    break;
+                case LevelState.EndW:
+                    break;
+                case LevelState.EndL:
+                    break;
+            }
+
+            //song1 = _content.Load<Song>("sawsquarenoise - Stage 1");
+            //MediaPlayer.IsRepeating = true;
+            //MediaPlayer.Volume = 0.25f;
+            //MediaPlayer.Play(song1);
+
+            levelComplete = _content.Load<SoundEffect>("LevelComplete");
+            lose = _content.Load<SoundEffect>("GameOver");
+
+            bangers = _content.Load<SpriteFont>("Bangers");
 
             // A real game would probably have more content than this sample, so
             // it would take longer to load. We simulate that by delaying for a
@@ -55,19 +158,29 @@ namespace A_Worrior_For_Fun.Screens
             ScreenManager.Game.ResetElapsedTime();
         }
 
-
+        /// <summary>
+        /// Deactivates the screen
+        /// </summary>
         public override void Deactivate()
         {
             base.Deactivate();
         }
 
+        /// <summary>
+        /// Unloads the screen's data
+        /// </summary>
         public override void Unload()
         {
             _content.Unload();
         }
 
+        /// <summary>
         // This method checks the GameScreen.IsActive property, so the game will
-        // stop updating when the pause menu is active, or if you tab away to a different application.
+        // stop updating when the pause menu is active, or if you tab away to a different application.        
+        /// </summary>
+        /// <param name="gameTime">The game's time</param>
+        /// <param name="otherScreenHasFocus">A bool for is another screen has focus</param>
+        /// <param name="coveredByOtherScreen">A bool for if another screen covers this one</param>
         public override void Update(GameTime gameTime, bool otherScreenHasFocus, bool coveredByOtherScreen)
         {
             base.Update(gameTime, otherScreenHasFocus, false);
@@ -78,27 +191,18 @@ namespace A_Worrior_For_Fun.Screens
             else
                 _pauseAlpha = Math.Max(_pauseAlpha - 1f / 32, 0);
 
-            if (IsActive)
-            {
-                // Apply some random jitter to make the enemy move around.
-                const float randomization = 10;
 
-                _enemyPosition.X += (float)(_random.NextDouble() - 0.5) * randomization;
-                _enemyPosition.Y += (float)(_random.NextDouble() - 0.5) * randomization;
-
-                // Apply a stabilizing force to stop the enemy moving off the screen.
-                var targetPosition = new Vector2(
-                    ScreenManager.GraphicsDevice.Viewport.Width / 2 - _gameFont.MeasureString("Insert Gameplay Here").X / 2,
-                    200);
-
-                _enemyPosition = Vector2.Lerp(_enemyPosition, targetPosition, 0.05f);
-
-                // This game isn't very fun! You could probably improve
-                // it by inserting something more interesting in this space :-)
-            }
+            previousGamePadState = gamePadState;
+            gamePadState = GamePad.GetState(0);
+            previousKeyboardState = keyboardState;
+            keyboardState = Keyboard.GetState();
         }
 
-        // Unlike the Update method, this will only be called when the gameplay screen is active.
+        /// <summary>
+        /// Is called when the screen is active
+        /// </summary>
+        /// <param name="gameTime">The game's time</param>
+        /// <param name="input">The input state object</param>
         public override void HandleInput(GameTime gameTime, InputState input)
         {
             if (input == null)
@@ -123,46 +227,109 @@ namespace A_Worrior_For_Fun.Screens
             }
             else
             {
-                // Otherwise move the player position.
-                var movement = Vector2.Zero;
+                //Levels state machine
+                switch (levelState)
+                {
+                    case LevelState.Start:
+                        if (keyboardState.IsKeyDown(Keys.Space) && previousKeyboardState.IsKeyUp(Keys.Space))
+                        {
+                            levelState = LevelState.Zero;
+                        }
+                        break;
+                    case LevelState.Zero:
+                        level0.Update(gameTime);
+                        if (level0.Won)
+                        {
+                            levelComplete.Play();
+                            levelState = LevelState.One;
+                            level1 = new Level1(level0.HP);
+                            LoadState();
+                        }
+                        if (level0.Lost)
+                        {
+                            lose.Play();
+                            levelState = LevelState.EndL;
+                        }
+                        break;
+                    case LevelState.One:
+                        level1.Update(gameTime);
+                        if (level1.Won)
+                        {
+                            levelComplete.Play();
+                            levelState = LevelState.EndW;
 
-                if (keyboardState.IsKeyDown(Keys.Left))
-                    movement.X--;
+                        }
+                        if (level1.Lost)
+                        {
+                            lose.Play();
+                            levelState = LevelState.EndL;
+                        }
+                        break;
+                    case LevelState.EndW:
+                        if (keyboardState.IsKeyDown(Keys.Space) && previousKeyboardState.IsKeyUp(Keys.Space))
+                        {
+                            MainMenuScreen mms = new MainMenuScreen();
+                            mms.ContentPasser(_content);
 
-                if (keyboardState.IsKeyDown(Keys.Right))
-                    movement.X++;
+                            LoadingScreen.Load(ScreenManager, false, null, new BackgroundScreen(), mms);
+                        }
+                        break;
+                    case LevelState.EndL:
+                        if (keyboardState.IsKeyDown(Keys.Space) && previousKeyboardState.IsKeyUp(Keys.Space))
+                        {
+                            MainMenuScreen mms = new MainMenuScreen();
+                            mms.ContentPasser(_content);
 
-                if (keyboardState.IsKeyDown(Keys.Up))
-                    movement.Y--;
-
-                if (keyboardState.IsKeyDown(Keys.Down))
-                    movement.Y++;
-
-                var thumbstick = gamePadState.ThumbSticks.Left;
-
-                movement.X += thumbstick.X;
-                movement.Y -= thumbstick.Y;
-
-                if (movement.Length() > 1)
-                    movement.Normalize();
-
-                _playerPosition += movement * 8f;
+                            LoadingScreen.Load(ScreenManager, false, null, new BackgroundScreen(), mms);
+                        }
+                        break;
+                }
             }
         }
 
+        /// <summary>
+        /// Draws the Screen
+        /// </summary>
+        /// <param name="gameTime">the game's time</param>
         public override void Draw(GameTime gameTime)
         {
             // This game has a blue background. Why? Because!
-            ScreenManager.GraphicsDevice.Clear(ClearOptions.Target, Color.CornflowerBlue, 0, 0);
+            ScreenManager.GraphicsDevice.Clear(ClearOptions.Target, Color.SeaGreen, 0, 0);
 
             // Our player and enemy are both actually just text strings.
             var spriteBatch = ScreenManager.SpriteBatch;
 
-            spriteBatch.Begin();
+            spriteBatch.Begin(samplerState: SamplerState.PointClamp);
 
-            spriteBatch.DrawString(_gameFont, "// TODO", _playerPosition, Color.Green);
-            spriteBatch.DrawString(_gameFont, "Insert Gameplay Here",
-                                   _enemyPosition, Color.DarkRed);
+            //Levels state machine
+            switch (levelState)
+            {
+                case LevelState.Start:
+                    spriteBatch.DrawString(bangers, "Welcome Warrior For Fun!", new Vector2(175, 100), Color.White, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0);
+                    spriteBatch.DrawString(bangers, "WASD to move and arrows to attack", new Vector2(105, 150), Color.White, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0);
+                    spriteBatch.DrawString(bangers, "Press [Space] to Begin!", new Vector2(195, 200), Color.White, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0);
+                    break;
+                case LevelState.Zero:
+                    level0.Draw(gameTime, spriteBatch);
+                    break;
+                case LevelState.One:
+                    level1.Draw(gameTime, spriteBatch);
+                    break;
+                case LevelState.EndW:
+                    spriteBatch.DrawString(bangers, "You Have WON!!!!", new Vector2(243, 100), Color.Gold, 0f, new Vector2(0, 0), 1.25f, SpriteEffects.None, 0);
+                    spriteBatch.DrawString(bangers, "Press [Space] to go to the main menu", new Vector2(30, 150), Color.Gold, 0f, new Vector2(0, 0), 1.25f, SpriteEffects.None, 0);
+                    spriteBatch.DrawString(bangers, "or [Esc] to open the menu", new Vector2(150, 200), Color.Gold, 0f, new Vector2(0, 0), 1.25f, SpriteEffects.None, 0);
+                    break;
+                case LevelState.EndL:
+                    spriteBatch.DrawString(bangers, "You Have DIED!!!", new Vector2(243, 100), Color.Red, 0f, new Vector2(0, 0), 1.25f, SpriteEffects.None, 0);
+                    spriteBatch.DrawString(bangers, "Press [Space] to go to the main menu", new Vector2(30, 150), Color.Red, 0f, new Vector2(0, 0), 1.25f, SpriteEffects.None, 0);
+                    spriteBatch.DrawString(bangers, "or [Esc] to open the menu", new Vector2(150, 200), Color.Red, 0f, new Vector2(0, 0), 1.25f, SpriteEffects.None, 0);
+                    break;
+            }
+
+            //spriteBatch.DrawString(_gameFont, "// TODO", _playerPosition, Color.Green);
+            //spriteBatch.DrawString(_gameFont, "Insert Gameplay Here",
+            //                      _enemyPosition, Color.DarkRed);
 
             spriteBatch.End();
 
