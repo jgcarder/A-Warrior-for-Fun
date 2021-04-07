@@ -24,6 +24,7 @@ namespace A_Worrior_For_Fun.Screens
         Start,
         Zero,
         One,
+        Two,
         EndW,
         EndL
     }
@@ -39,6 +40,7 @@ namespace A_Worrior_For_Fun.Screens
         private LevelState levelState = LevelState.Start; //Needs to be changed to reflect new system.
         private Level0 level0;
         private Level1 level1;
+        private Level2 level2;
 
         //private Song song1;
         private SoundEffect levelComplete;
@@ -70,6 +72,7 @@ namespace A_Worrior_For_Fun.Screens
 
             level0 = new Level0();
             level1 = new Level1();
+            level2 = new Level2();
         }
 
         /// <summary>
@@ -89,6 +92,9 @@ namespace A_Worrior_For_Fun.Screens
                 case LevelState.One:
                     level1.LoadContent(_content);
                     break;
+                case LevelState.Two:
+                    level2.LoadContent(_content);
+                    break;
                 case LevelState.EndW:
                     break;
                 case LevelState.EndL:
@@ -105,7 +111,7 @@ namespace A_Worrior_For_Fun.Screens
 
             bangers = _content.Load<SpriteFont>("Bangers");
 
-            Thread.Sleep(1000);
+            Thread.Sleep(500);
             ScreenManager.Game.ResetElapsedTime();
         }
 
@@ -130,6 +136,9 @@ namespace A_Worrior_For_Fun.Screens
                 case LevelState.One:
                     //nothing yet.
                     level1.LoadContent(_content);
+                    break;
+                case LevelState.Two:
+                    level2.LoadContent(_content);
                     break;
                 case LevelState.EndW:
                     break;
@@ -256,10 +265,26 @@ namespace A_Worrior_For_Fun.Screens
                         if (level1.Won)
                         {
                             levelComplete.Play();
-                            levelState = LevelState.EndW;
+                            levelState = LevelState.Two;
+                            level2 = new Level2(level0.HP);
+                            LoadState();
 
                         }
                         if (level1.Lost)
+                        {
+                            lose.Play();
+                            levelState = LevelState.EndL;
+                        }
+                        break;
+                    case LevelState.Two:
+                        level2.Update(gameTime);
+                        if (level2.Won)
+                        {
+                            levelComplete.Play();
+                            levelState = LevelState.EndW;
+
+                        }
+                        if (level2.Lost)
                         {
                             lose.Play();
                             levelState = LevelState.EndL;
@@ -299,31 +324,46 @@ namespace A_Worrior_For_Fun.Screens
             // Our player and enemy are both actually just text strings.
             var spriteBatch = ScreenManager.SpriteBatch;
 
-            spriteBatch.Begin(samplerState: SamplerState.PointClamp);
+            //spriteBatch.Begin(samplerState: SamplerState.PointClamp);
+
+
 
             //Levels state machine
             switch (levelState)
             {
                 case LevelState.Start:
+                    spriteBatch.Begin(samplerState: SamplerState.PointClamp);
                     spriteBatch.DrawString(bangers, "Welcome Warrior For Fun!", new Vector2(175, 100), Color.White, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0);
                     spriteBatch.DrawString(bangers, "WASD to move and arrows to attack", new Vector2(105, 150), Color.White, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0);
                     spriteBatch.DrawString(bangers, "Press [Space] to Begin!", new Vector2(195, 200), Color.White, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0);
+                    spriteBatch.End();
                     break;
                 case LevelState.Zero:
+                    spriteBatch.Begin(samplerState: SamplerState.PointClamp);
                     level0.Draw(gameTime, spriteBatch);
+                    spriteBatch.End();
                     break;
                 case LevelState.One:
+                    spriteBatch.Begin(samplerState: SamplerState.PointClamp);
                     level1.Draw(gameTime, spriteBatch);
+                    spriteBatch.End();
+                    break;
+                case LevelState.Two:
+                    level2.Draw(gameTime, spriteBatch);
                     break;
                 case LevelState.EndW:
+                    spriteBatch.Begin(samplerState: SamplerState.PointClamp);
                     spriteBatch.DrawString(bangers, "You Have WON!!!!", new Vector2(243, 100), Color.Gold, 0f, new Vector2(0, 0), 1.25f, SpriteEffects.None, 0);
                     spriteBatch.DrawString(bangers, "Press [Space] to go to the main menu", new Vector2(30, 150), Color.Gold, 0f, new Vector2(0, 0), 1.25f, SpriteEffects.None, 0);
                     spriteBatch.DrawString(bangers, "or [Esc] to open the menu", new Vector2(150, 200), Color.Gold, 0f, new Vector2(0, 0), 1.25f, SpriteEffects.None, 0);
+                    spriteBatch.End();
                     break;
                 case LevelState.EndL:
+                    spriteBatch.Begin(samplerState: SamplerState.PointClamp);
                     spriteBatch.DrawString(bangers, "You Have DIED!!!", new Vector2(243, 100), Color.Red, 0f, new Vector2(0, 0), 1.25f, SpriteEffects.None, 0);
                     spriteBatch.DrawString(bangers, "Press [Space] to go to the main menu", new Vector2(30, 150), Color.Red, 0f, new Vector2(0, 0), 1.25f, SpriteEffects.None, 0);
                     spriteBatch.DrawString(bangers, "or [Esc] to open the menu", new Vector2(150, 200), Color.Red, 0f, new Vector2(0, 0), 1.25f, SpriteEffects.None, 0);
+                    spriteBatch.End();
                     break;
             }
 
@@ -331,7 +371,7 @@ namespace A_Worrior_For_Fun.Screens
             //spriteBatch.DrawString(_gameFont, "Insert Gameplay Here",
             //                      _enemyPosition, Color.DarkRed);
 
-            spriteBatch.End();
+            //spriteBatch.End();
 
             // If the game is transitioning on or off, fade it out to black.
             if (TransitionPosition > 0 || _pauseAlpha > 0)

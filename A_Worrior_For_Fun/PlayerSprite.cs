@@ -60,6 +60,8 @@ namespace A_Worrior_For_Fun
         private BoundingRectangle swordBoundDown = new BoundingRectangle(new Vector2(100, 250 + 16), 8, 32);
         private BoundingRectangle swordBoundLeft = new BoundingRectangle(new Vector2(100 - 48, 250 - 15), 32, 8);
 
+        private int _worldLength;
+
         //Sound effects
         private SoundEffect swordSwing;
 
@@ -87,6 +89,18 @@ namespace A_Worrior_For_Fun
         /// The collision bounds for a left attack.
         /// </summary>
         public BoundingRectangle SwordBoundLeft => swordBoundLeft;
+
+        public int WorldLength
+        {
+            get
+            {
+                return _worldLength;
+            }
+            set
+            {
+                _worldLength = value;
+            }
+        }
 
         /// <summary>
         /// The attack direction property for the player.
@@ -227,9 +241,9 @@ namespace A_Worrior_For_Fun
                 {
                     position = new Vector2(position.X, 25);
                 }
-                if(position.X > 800)
+                if(position.X > _worldLength - 100)
                 {
-                    position = new Vector2(800, position.Y);
+                    position = new Vector2(_worldLength - 100, position.Y);
                 }
                 if(position.Y > 480)
                 {

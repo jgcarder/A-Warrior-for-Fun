@@ -57,6 +57,7 @@ namespace A_Worrior_For_Fun
             health = new HealthSprite();
             hp = health.Lives;
             player = new PlayerSprite();
+            player.WorldLength = 900;
 
             enemiesH = new EnemySprite[]
             {

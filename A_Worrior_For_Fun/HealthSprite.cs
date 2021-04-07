@@ -26,6 +26,18 @@ namespace A_Worrior_For_Fun
 
         private Vector2 position = new Vector2(3, 432);
 
+        public Vector2 Position
+        {
+            get
+            {
+                return position;
+            }
+            set
+            {
+                position = value;
+            }
+        }
+
         /// <summary>
         /// Default
         /// </summary>

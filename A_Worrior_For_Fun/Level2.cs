@@ -1,8 +1,4 @@
-﻿/* Title: Level1.cs
- * Author: Jackson Carder
- */
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.Xna.Framework;
@@ -15,10 +11,7 @@ using Microsoft.Xna.Framework.Media;
 
 namespace A_Worrior_For_Fun
 {
-    /// <summary>
-    /// A Level class for the game
-    /// </summary>
-    public class Level1
+    public class Level2
     {
         /// <summary>
         /// Bool used to see if the player has won.
@@ -33,7 +26,7 @@ namespace A_Worrior_For_Fun
         public int Health { get { return hp; } }
 
         //Assistant variables
-        private int numEnemies = 8;
+        private int numEnemies = 14;
         private bool won = false;
         private bool lost = false;
         private int hp;
@@ -41,41 +34,54 @@ namespace A_Worrior_For_Fun
         //Moving sprites and health
         private EnemySprite[] enemiesH;
         private EnemySprite2[] enemiesV;
+        private EnemySprite3[] enemiesO;
         private HealthSprite health;
         private PlayerSprite player;
 
         //Textures
         private Texture2D texture;
+        private Texture2D _background;
+        private Texture2D _clouds;
 
         //Sound stuff
         private SoundEffect playerHit;
         private SoundEffect basicEnemyHit;
 
         /// <summary>
-        /// Constructor for the level.
+        /// Constructor that Takes in an int.
         /// </summary>
-        public Level1()
+        /// <param name="previousHp">The Hp from the previous level</param>
+        public Level2()
         {
             System.Random rand = new Random();
 
             health = new HealthSprite();
             hp = health.Lives;
             player = new PlayerSprite();
-            player.WorldLength = 900;
+            player.WorldLength = 2000;
 
             enemiesH = new EnemySprite[]
             {
-                new EnemySprite(new Vector2((float)rand.Next(100, 700), (float)rand.Next(20, 475)), true),
-                new EnemySprite(new Vector2((float)rand.Next(100, 700), (float)rand.Next(20, 475)), true),
-                new EnemySprite(new Vector2((float)rand.Next(100, 700), (float)rand.Next(20, 475)), false),
-                new EnemySprite(new Vector2((float)rand.Next(100, 700), (float)rand.Next(20, 475)), false)
+                new EnemySprite(new Vector2((float)rand.Next(200, 1800), (float)rand.Next(50, 450)), true),
+                new EnemySprite(new Vector2((float)rand.Next(200, 1800), (float)rand.Next(50, 450)), true),
+                new EnemySprite(new Vector2((float)rand.Next(200, 1800), (float)rand.Next(50, 450)), false),
+                new EnemySprite(new Vector2((float)rand.Next(200, 1800), (float)rand.Next(50, 450)), false),
+                new EnemySprite(new Vector2((float)rand.Next(200, 1800), (float)rand.Next(50, 450)), false)
             };
             enemiesV = new EnemySprite2[]
             {
-                new EnemySprite2(new Vector2((float)rand.Next(100, 700), (float)rand.Next(20, 475)), true),
-                new EnemySprite2(new Vector2((float)rand.Next(100, 700), (float)rand.Next(20, 475)), true),
-                new EnemySprite2(new Vector2((float)rand.Next(100, 700), (float)rand.Next(20, 475)), false),
-                new EnemySprite2(new Vector2((float)rand.Next(100, 700), (float)rand.Next(20, 475)), false)
+                new EnemySprite2(new Vector2((float)rand.Next(50, 1950), (float)rand.Next(200, 300)), true),
+                new EnemySprite2(new Vector2((float)rand.Next(50, 1950), (float)rand.Next(200, 300)), true),
+                new EnemySprite2(new Vector2((float)rand.Next(50, 1950), (float)rand.Next(200, 300)), false),
+                new EnemySprite2(new Vector2((float)rand.Next(50, 1950), (float)rand.Next(200, 300)), false),
+                new EnemySprite2(new Vector2((float)rand.Next(50, 1950), (float)rand.Next(200, 300)), true)
+            };
+            enemiesO = new EnemySprite3[]
+            {
+                new EnemySprite3(new Vector2((float)rand.Next(100, 1900), (float)rand.Next(50, 450))),
+                new EnemySprite3(new Vector2((float)rand.Next(100, 1900), (float)rand.Next(50, 450))),
+                new EnemySprite3(new Vector2((float)rand.Next(100, 1900), (float)rand.Next(50, 450))),
+                new EnemySprite3(new Vector2((float)rand.Next(100, 1900), (float)rand.Next(50, 450)))
             };
         }
 
@@ -83,28 +89,37 @@ namespace A_Worrior_For_Fun
         /// Constructor that Takes in an int.
         /// </summary>
         /// <param name="previousHp">The Hp from the previous level</param>
-        public Level1(int previousHp)
+        public Level2(int previousHp)
         {
             System.Random rand = new Random();
 
             health = new HealthSprite(previousHp);
             hp = previousHp;
             player = new PlayerSprite();
-            player.WorldLength = 900;
+            player.WorldLength = 2000;
 
             enemiesH = new EnemySprite[]
             {
-                new EnemySprite(new Vector2((float)rand.Next(200, 600), (float)rand.Next(50, 450)), true),
-                new EnemySprite(new Vector2((float)rand.Next(200, 600), (float)rand.Next(50, 450)), true),
-                new EnemySprite(new Vector2((float)rand.Next(200, 600), (float)rand.Next(50, 450)), false),
-                new EnemySprite(new Vector2((float)rand.Next(200, 600), (float)rand.Next(50, 450)), false)
+                new EnemySprite(new Vector2((float)rand.Next(200, 1800), (float)rand.Next(50, 450)), true),
+                new EnemySprite(new Vector2((float)rand.Next(200, 1800), (float)rand.Next(50, 450)), true),
+                new EnemySprite(new Vector2((float)rand.Next(200, 1800), (float)rand.Next(50, 450)), false),
+                new EnemySprite(new Vector2((float)rand.Next(200, 1800), (float)rand.Next(50, 450)), false),
+                new EnemySprite(new Vector2((float)rand.Next(200, 1800), (float)rand.Next(50, 450)), false)
             };
             enemiesV = new EnemySprite2[]
             {
-                new EnemySprite2(new Vector2((float)rand.Next(50, 750), (float)rand.Next(200, 300)), true),
-                new EnemySprite2(new Vector2((float)rand.Next(50, 750), (float)rand.Next(200, 300)), true),
-                new EnemySprite2(new Vector2((float)rand.Next(50, 750), (float)rand.Next(200, 300)), false),
-                new EnemySprite2(new Vector2((float)rand.Next(50, 750), (float)rand.Next(200, 300)), false)
+                new EnemySprite2(new Vector2((float)rand.Next(50, 1950), (float)rand.Next(200, 300)), true),
+                new EnemySprite2(new Vector2((float)rand.Next(50, 1950), (float)rand.Next(200, 300)), true),
+                new EnemySprite2(new Vector2((float)rand.Next(50, 1950), (float)rand.Next(200, 300)), false),
+                new EnemySprite2(new Vector2((float)rand.Next(50, 1950), (float)rand.Next(200, 300)), false),
+                new EnemySprite2(new Vector2((float)rand.Next(50, 1950), (float)rand.Next(200, 300)), true)
+            };
+            enemiesO = new EnemySprite3[]
+            {
+                new EnemySprite3(new Vector2((float)rand.Next(250, 1900), (float)rand.Next(50, 450))),
+                new EnemySprite3(new Vector2((float)rand.Next(250, 1900), (float)rand.Next(50, 450))),
+                new EnemySprite3(new Vector2((float)rand.Next(250, 1900), (float)rand.Next(50, 450))),
+                new EnemySprite3(new Vector2((float)rand.Next(250, 1900), (float)rand.Next(50, 450)))
             };
         }
 
@@ -128,8 +143,14 @@ namespace A_Worrior_For_Fun
             {
                 enemy.LoadContent(content);
             }
+            foreach (var enemy in enemiesO)
+            {
+                enemy.LoadContent(content);
+            }
 
             texture = content.Load<Texture2D>("colored_packed");
+            _background = content.Load <Texture2D>("Level 3 background");
+            _clouds = content.Load<Texture2D>("Clouds");
         }
 
         /// <summary>
@@ -150,6 +171,10 @@ namespace A_Worrior_For_Fun
             {
                 enemy.Update(gameTime);
             }
+            foreach (var enemy in enemiesO)
+            {
+                enemy.Update(gameTime);
+            }
 
             //resetting colors
             player.Color = Color.White;
@@ -160,6 +185,16 @@ namespace A_Worrior_For_Fun
             foreach (var enemy in enemiesV)
             {
                 enemy.Color = Color.White;
+            }
+            foreach (var enemy in enemiesO)
+            {
+                enemy.Color = Color.White;
+            }
+
+            //EnemyO activation
+            foreach (var enemy in enemiesO)
+            {
+                enemy.PlayerPos = player.Position;
             }
 
             //Enemies collision
@@ -278,6 +313,63 @@ namespace A_Worrior_For_Fun
                 }
 
             }
+            foreach (var enemy in enemiesO)
+            {
+                enemy.Update(gameTime);
+
+                switch (player.Attack)
+                {
+                    case Attack.Up:
+                        if (!enemy.Killed && enemy.Bounds.CollidesWith(player.SwordBoundUp))
+                        {
+                            enemy.Color = Color.Red;
+                            numEnemies--;
+                            enemy.Killed = true;
+                            basicEnemyHit.Play();
+                        }
+                        break;
+                    case Attack.Right:
+                        if (!enemy.Killed && enemy.Bounds.CollidesWith(player.SwordBoundRight))
+                        {
+                            enemy.Color = Color.Red;
+                            numEnemies--;
+                            enemy.Killed = true;
+                            basicEnemyHit.Play();
+                        }
+                        break;
+                    case Attack.Down:
+                        if (!enemy.Killed && enemy.Bounds.CollidesWith(player.SwordBoundDown))
+                        {
+                            enemy.Color = Color.Red;
+                            numEnemies--;
+                            enemy.Killed = true;
+                            basicEnemyHit.Play();
+                        }
+                        break;
+                    case Attack.Left:
+                        if (!enemy.Killed && enemy.Bounds.CollidesWith(player.SwordBoundLeft))
+                        {
+                            enemy.Color = Color.Red;
+                            numEnemies--;
+                            enemy.Killed = true;
+                            basicEnemyHit.Play();
+                        }
+                        break;
+                    case Attack.None:
+                        //Do nothing
+                        break;
+                }
+
+                if (!enemy.Killed && enemy.Bounds.CollidesWith(player.Bounds))
+                {
+                    health.Lives--;
+                    hp--;
+                    player.Color = Color.Red;
+                    player.Position = new Vector2(100, 250);
+                    playerHit.Play();
+                }
+
+            }
 
             //Checking ending conditions
             if (health.Lives <= 1)
@@ -299,29 +391,15 @@ namespace A_Worrior_For_Fun
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             //Drawing environment
-            var source1 = new Rectangle(64 + 16 * 1, 0, 16, 16);
-            var source2 = new Rectangle(64 + 16 * 2, 0, 16, 16);
-            var source3 = new Rectangle(64 + 16 * 3, 0, 16, 16);
-            var source4 = new Rectangle(80, 32, 16, 16);
-            spriteBatch.Draw(texture, new Vector2(77, 44), source1, Color.White, 0f, new Vector2(), 2f, SpriteEffects.None, 0);
-            spriteBatch.Draw(texture, new Vector2(700, 300), source1, Color.White, 0f, new Vector2(), 2f, SpriteEffects.None, 0);
-            spriteBatch.Draw(texture, new Vector2(69, 444), source1, Color.White, 0f, new Vector2(), 2f, SpriteEffects.None, 0);
-            spriteBatch.Draw(texture, new Vector2(123, 200), source1, Color.White, 0f, new Vector2(), 2f, SpriteEffects.None, 0);
-            spriteBatch.Draw(texture, new Vector2(221, 88), source1, Color.White, 0f, new Vector2(), 2f, SpriteEffects.None, 0);
-            spriteBatch.Draw(texture, new Vector2(599, 111), source2, Color.White, 0f, new Vector2(), 2f, SpriteEffects.None, 0);
-            spriteBatch.Draw(texture, new Vector2(600, 400), source2, Color.White, 0f, new Vector2(), 2f, SpriteEffects.None, 0);
-            spriteBatch.Draw(texture, new Vector2(326, 214), source2, Color.White, 0f, new Vector2(), 2f, SpriteEffects.None, 0);
-            spriteBatch.Draw(texture, new Vector2(666, 99), source2, Color.White, 0f, new Vector2(), 2f, SpriteEffects.None, 0);
-            spriteBatch.Draw(texture, new Vector2(428, 275), source2, Color.White, 0f, new Vector2(), 2f, SpriteEffects.None, 0);
-            spriteBatch.Draw(texture, new Vector2(497, 7), source3, Color.White, 0f, new Vector2(), 2f, SpriteEffects.None, 0);
-            spriteBatch.Draw(texture, new Vector2(555, 470), source3, Color.White, 0f, new Vector2(), 2f, SpriteEffects.None, 0);
-            spriteBatch.Draw(texture, new Vector2(710, 460), source3, Color.White, 0f, new Vector2(), 2f, SpriteEffects.None, 0);
-            spriteBatch.Draw(texture, new Vector2(200, 50), source3, Color.White, 0f, new Vector2(), 2f, SpriteEffects.None, 0);
-            spriteBatch.Draw(texture, new Vector2(501, 66), source3, Color.White, 0f, new Vector2(), 2f, SpriteEffects.None, 0);
-            spriteBatch.Draw(texture, new Vector2(110, 110), source4, Color.White, 0f, new Vector2(), 2f, SpriteEffects.None, 0);
-            spriteBatch.Draw(texture, new Vector2(510, 234), source4, Color.White, 0f, new Vector2(), 2f, SpriteEffects.None, 0);
-            spriteBatch.Draw(texture, new Vector2(400, 250), source4, Color.White, 0f, new Vector2(), 2f, SpriteEffects.None, 0);
-            spriteBatch.Draw(texture, new Vector2(400, 767), source4, Color.White, 0f, new Vector2(), 2f, SpriteEffects.None, 0);
+            float playerX = MathHelper.Clamp(player.Position.X, 350, 2000);
+            float offsetX = 350 - playerX;
+
+            Matrix transform;
+
+            //Background & Playground
+            transform = Matrix.CreateTranslation(offsetX, 0, 0);
+            spriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: transform);
+            spriteBatch.Draw(_background, Vector2.Zero, Color.White);
 
             //Drawing enemies
             foreach (var enemy in enemiesH)
@@ -332,11 +410,32 @@ namespace A_Worrior_For_Fun
             {
                 enemy.Draw(gameTime, spriteBatch);
             }
+            foreach (var enemy in enemiesO)
+            {
+                enemy.Draw(gameTime, spriteBatch);
+            }
 
             //Drawing player and health
             player.Draw(gameTime, spriteBatch);
+            if(offsetX <= 0)
+            {
+                float tempX = Math.Abs(offsetX);
+                health.Position = new Vector2(tempX += health.Position.X, health.Position.Y);
+            }
+            else
+            {
+                health.Position = new Vector2(3, 432);
+            }
             health.Draw(gameTime, spriteBatch);
 
+            spriteBatch.End();
+
+            transform = Matrix.CreateTranslation(offsetX * 1.1f, 0, 0);
+            spriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: transform);
+            spriteBatch.Draw(_clouds, Vector2.Zero, Color.White);
+            spriteBatch.End();
+
         }
+
     }
 }
