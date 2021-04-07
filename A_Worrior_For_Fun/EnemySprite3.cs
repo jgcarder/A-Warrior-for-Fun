@@ -21,7 +21,7 @@ namespace A_Worrior_For_Fun
         private double animationTimer;
         private Color color = Color.White;
 
-        private const int _radius = 5;
+        private const int _radius = 110;
 
         private Vector2 playerPos = Vector2.Zero;
 
@@ -105,24 +105,28 @@ namespace A_Worrior_For_Fun
             {
                 if(isActive) //if active
                 {
-                    double x = position.X - playerPos.X;
-                    double y = position.Y - playerPos.Y;
+                    double x = playerPos.X - position.X;
+                    double y = playerPos.Y - position.Y;
 
                     if (x <= 0) leftRight = true;
                     else leftRight = false;
 
-                    if (x >= y)
+                    if (Math.Abs(x) >= Math.Abs(y))
                     {
-                        x = x / y;
-                        y = y / y;
+                        x = x / Math.Abs(y);
+                        y = y / Math.Abs(y);
                     }
                     else
                     {
-                        y = y / x;
-                        x = x / x;
+                        y = y / Math.Abs(x);
+                        x = x / Math.Abs(x);
                     }
 
-                    position += new Vector2((float)x, (float)y) * 100 * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                    if (y >= 2) y = 2;
+                    if (x >= 2) x = 2;
+                    if (y <= -2) y = -2;
+                    if (x <= -2) x = -2;
+                    position += new Vector2((float)x, (float)y) * 30 * (float)gameTime.ElapsedGameTime.TotalSeconds;
                 }
             }
 

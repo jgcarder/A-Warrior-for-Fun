@@ -30,7 +30,7 @@ namespace A_Worrior_For_Fun
         /// </summary>
         public bool Lost { get { return lost; } }
 
-        public int Health { get { return hp; } }
+        public int HP { get { return hp; } }
 
         //Assistant variables
         private int numEnemies = 8;
@@ -65,17 +65,17 @@ namespace A_Worrior_For_Fun
 
             enemiesH = new EnemySprite[]
             {
-                new EnemySprite(new Vector2((float)rand.Next(100, 700), (float)rand.Next(20, 475)), true),
-                new EnemySprite(new Vector2((float)rand.Next(100, 700), (float)rand.Next(20, 475)), true),
-                new EnemySprite(new Vector2((float)rand.Next(100, 700), (float)rand.Next(20, 475)), false),
-                new EnemySprite(new Vector2((float)rand.Next(100, 700), (float)rand.Next(20, 475)), false)
+                new EnemySprite(new Vector2((float)rand.Next(200, 700), (float)rand.Next(20, 475)), true),
+                new EnemySprite(new Vector2((float)rand.Next(200, 700), (float)rand.Next(20, 475)), true),
+                new EnemySprite(new Vector2((float)rand.Next(200, 700), (float)rand.Next(20, 475)), false),
+                new EnemySprite(new Vector2((float)rand.Next(200, 700), (float)rand.Next(20, 475)), false)
             };
             enemiesV = new EnemySprite2[]
             {
-                new EnemySprite2(new Vector2((float)rand.Next(100, 700), (float)rand.Next(20, 475)), true),
-                new EnemySprite2(new Vector2((float)rand.Next(100, 700), (float)rand.Next(20, 475)), true),
-                new EnemySprite2(new Vector2((float)rand.Next(100, 700), (float)rand.Next(20, 475)), false),
-                new EnemySprite2(new Vector2((float)rand.Next(100, 700), (float)rand.Next(20, 475)), false)
+                new EnemySprite2(new Vector2((float)rand.Next(120, 700), (float)rand.Next(20, 475)), true),
+                new EnemySprite2(new Vector2((float)rand.Next(120, 700), (float)rand.Next(20, 475)), true),
+                new EnemySprite2(new Vector2((float)rand.Next(120, 700), (float)rand.Next(20, 475)), false),
+                new EnemySprite2(new Vector2((float)rand.Next(120, 700), (float)rand.Next(20, 475)), false)
             };
         }
 

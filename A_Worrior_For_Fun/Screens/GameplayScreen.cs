@@ -266,7 +266,7 @@ namespace A_Worrior_For_Fun.Screens
                         {
                             levelComplete.Play();
                             levelState = LevelState.Two;
-                            level2 = new Level2(level0.HP);
+                            level2 = new Level2(level1.HP);
                             LoadState();
 
                         }
@@ -349,6 +349,7 @@ namespace A_Worrior_For_Fun.Screens
                     spriteBatch.End();
                     break;
                 case LevelState.Two:
+                    ScreenManager.GraphicsDevice.Clear(ClearOptions.Target, Color.CadetBlue, 0, 0);
                     level2.Draw(gameTime, spriteBatch);
                     break;
                 case LevelState.EndW:

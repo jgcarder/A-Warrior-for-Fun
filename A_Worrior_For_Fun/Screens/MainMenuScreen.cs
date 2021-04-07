@@ -55,7 +55,7 @@ namespace A_Worrior_For_Fun.Screens
         {
             Song stage1 = _content.Load<Song>("sawsquarenoise - Stage 1");
             MediaPlayer.IsRepeating = true;
-            MediaPlayer.Volume = 0.25f;
+            MediaPlayer.Volume = 0.1f;
             SoundEffect.MasterVolume = 0.25f;
             MediaPlayer.Play(stage1);
         }

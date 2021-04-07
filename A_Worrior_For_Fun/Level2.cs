@@ -58,7 +58,7 @@ namespace A_Worrior_For_Fun
             health = new HealthSprite();
             hp = health.Lives;
             player = new PlayerSprite();
-            player.WorldLength = 2000;
+            player.WorldLength = 2300;
 
             enemiesH = new EnemySprite[]
             {
@@ -96,7 +96,7 @@ namespace A_Worrior_For_Fun
             health = new HealthSprite(previousHp);
             hp = previousHp;
             player = new PlayerSprite();
-            player.WorldLength = 2000;
+            player.WorldLength = 2073;
 
             enemiesH = new EnemySprite[]
             {
@@ -116,10 +116,10 @@ namespace A_Worrior_For_Fun
             };
             enemiesO = new EnemySprite3[]
             {
-                new EnemySprite3(new Vector2((float)rand.Next(250, 1900), (float)rand.Next(50, 450))),
-                new EnemySprite3(new Vector2((float)rand.Next(250, 1900), (float)rand.Next(50, 450))),
-                new EnemySprite3(new Vector2((float)rand.Next(250, 1900), (float)rand.Next(50, 450))),
-                new EnemySprite3(new Vector2((float)rand.Next(250, 1900), (float)rand.Next(50, 450)))
+                new EnemySprite3(new Vector2((float)rand.Next(350, 1900), (float)rand.Next(50, 450))),
+                new EnemySprite3(new Vector2((float)rand.Next(350, 1900), (float)rand.Next(50, 450))),
+                new EnemySprite3(new Vector2((float)rand.Next(350, 1900), (float)rand.Next(50, 450))),
+                new EnemySprite3(new Vector2((float)rand.Next(350, 1900), (float)rand.Next(50, 450)))
             };
         }
 
@@ -391,7 +391,7 @@ namespace A_Worrior_For_Fun
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             //Drawing environment
-            float playerX = MathHelper.Clamp(player.Position.X, 350, 2000);
+            float playerX = MathHelper.Clamp(player.Position.X, 350, 2100);
             float offsetX = 350 - playerX;
 
             Matrix transform;
@@ -400,6 +400,12 @@ namespace A_Worrior_For_Fun
             transform = Matrix.CreateTranslation(offsetX, 0, 0);
             spriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: transform);
             spriteBatch.Draw(_background, Vector2.Zero, Color.White);
+
+            var source = new Rectangle(80, 32, 16, 16);
+            for (int i = 0; i < 16; i++)
+            {
+                spriteBatch.Draw(texture, new Vector2(1968, 32 * i), source, Color.White, 0f, new Vector2(), 2f, SpriteEffects.None, 0);
+            }
 
             //Drawing enemies
             foreach (var enemy in enemiesH)

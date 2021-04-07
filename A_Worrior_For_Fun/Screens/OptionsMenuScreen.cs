@@ -37,8 +37,7 @@ namespace A_Worrior_For_Fun.Screens
         private ContentManager _content;
 
         private static SongPlaying _currentSong = SongPlaying.Stage_1;
-        private static int _currentLanguage;
-        private static int _volume = 25;
+        private static int _volume = 10;
         private static int _sfVolume = 25;
 
         private Song stage1;
