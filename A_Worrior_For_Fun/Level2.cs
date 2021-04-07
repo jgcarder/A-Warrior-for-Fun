@@ -163,6 +163,12 @@ namespace A_Worrior_For_Fun
             health.Update(gameTime);
             player.Update(gameTime);
 
+            //EnemyO activation
+            foreach (var enemy in enemiesO)
+            {
+                enemy.PlayerPos = player.Position;
+            }
+
             foreach (var enemy in enemiesH)
             {
                 enemy.Update(gameTime);
@@ -191,16 +197,10 @@ namespace A_Worrior_For_Fun
                 enemy.Color = Color.White;
             }
 
-            //EnemyO activation
-            foreach (var enemy in enemiesO)
-            {
-                enemy.PlayerPos = player.Position;
-            }
-
             //Enemies collision
             foreach (var enemy in enemiesH)
             {
-                enemy.Update(gameTime);
+                //enemy.Update(gameTime);
 
                 switch (player.Attack)
                 {
@@ -258,7 +258,7 @@ namespace A_Worrior_For_Fun
             }
             foreach (var enemy in enemiesV)
             {
-                enemy.Update(gameTime);
+                //enemy.Update(gameTime);
 
                 switch (player.Attack)
                 {
@@ -315,7 +315,7 @@ namespace A_Worrior_For_Fun
             }
             foreach (var enemy in enemiesO)
             {
-                enemy.Update(gameTime);
+                //enemy.Update(gameTime);
 
                 switch (player.Attack)
                 {
@@ -419,8 +419,8 @@ namespace A_Worrior_For_Fun
             player.Draw(gameTime, spriteBatch);
             if(offsetX <= 0)
             {
-                float tempX = Math.Abs(offsetX);
-                health.Position = new Vector2(tempX += health.Position.X, health.Position.Y);
+                float tempX = playerX - 350;
+                health.Position = new Vector2(tempX , health.Position.Y);
             }
             else
             {

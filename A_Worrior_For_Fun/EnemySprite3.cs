@@ -21,7 +21,7 @@ namespace A_Worrior_For_Fun
         private double animationTimer;
         private Color color = Color.White;
 
-        private const int _radius = 50;
+        private const int _radius = 5;
 
         private Vector2 playerPos = Vector2.Zero;
 
@@ -67,6 +67,7 @@ namespace A_Worrior_For_Fun
         public EnemySprite3 (Vector2 position)
         {
             this.position = position;
+            bounds = new BoundingCircle(new Vector2(this.position.X + 16, this.position.Y + 16), 16);
         }
 
         /// <summary>
@@ -86,8 +87,18 @@ namespace A_Worrior_For_Fun
         {
             timer += gameTime.ElapsedGameTime.TotalSeconds;
             
-            double distance = Math.Sqrt(Math.Pow((position.X - playerPos.X), 2) + Math.Pow((position.Y - playerPos.Y), 2));
-            if (distance <= _radius) isActive = true;
+            double distance = Math.Sqrt(Math.Pow((bounds.Center.X - playerPos.X), 2) + Math.Pow((bounds.Center.Y - playerPos.Y), 2));
+            //double xDist = Math.Abs(bounds.Center.X - playerPos.X);
+            //double yDist = Math.Abs(bounds.Center.Y = playerPos.Y);
+
+            if (distance <= _radius)
+            {
+                isActive = true;
+            }
+            //if (xDist <= 50 && yDist <= 50)
+            //{
+            //    isActive = true;
+            //}  
             else isActive = false;
 
             if (!Killed) //if alive
