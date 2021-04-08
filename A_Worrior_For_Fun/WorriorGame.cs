@@ -63,7 +63,7 @@ namespace A_Worrior_For_Fun
 
         private void AddInitialScreens()
         {
-            MainMenuScreen mms = new MainMenuScreen();
+            MainMenuScreen mms = new MainMenuScreen(this);
             mms.ContentPasser(Content);
             mms.SongStart();
 

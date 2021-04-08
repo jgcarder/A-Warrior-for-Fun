@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework;
 using A_Worrior_For_Fun.StateManagement;
 
 namespace A_Worrior_For_Fun.Screens
@@ -14,10 +15,11 @@ namespace A_Worrior_For_Fun.Screens
     // giving the player options to resume or quit.
     public class PauseMenuScreen : MenuScreen
     {
+        private Game _game;
         /// <summary>
         /// The constructor
         /// </summary>
-        public PauseMenuScreen() : base("Paused")
+        public PauseMenuScreen(Game game) : base("Paused")
         {
             var resumeGameMenuEntry = new MenuEntry("Resume Game");
             var quitGameMenuEntry = new MenuEntry("Quit Game");
@@ -27,6 +29,8 @@ namespace A_Worrior_For_Fun.Screens
 
             MenuEntries.Add(resumeGameMenuEntry);
             MenuEntries.Add(quitGameMenuEntry);
+
+            _game = game;
         }
 
         /// <summary>
@@ -47,7 +51,7 @@ namespace A_Worrior_For_Fun.Screens
         // This uses the loading screen to transition from the game back to the main menu screen.
         private void ConfirmQuitMessageBoxAccepted(object sender, PlayerIndexEventArgs e)
         {
-            MainMenuScreen mms = new MainMenuScreen();
+            MainMenuScreen mms = new MainMenuScreen(_game);
             mms.ContentPasser(new ContentManager(ScreenManager.Game.Services, "Content"));
 
             LoadingScreen.Load(ScreenManager, false, null, new BackgroundScreen(), mms);

@@ -21,10 +21,12 @@ namespace A_Worrior_For_Fun.Screens
     {
         private ContentManager _content;
 
+        private Game game;
+
         /// <summary>
         /// The constructor for the main menu screen
         /// </summary>
-        public MainMenuScreen() : base("Main Menu")
+        public MainMenuScreen(Game game) : base("Main Menu")
         {
             var playGameMenuEntry = new MenuEntry("Play Game");
             var optionsMenuEntry = new MenuEntry("Options");
@@ -37,6 +39,14 @@ namespace A_Worrior_For_Fun.Screens
             MenuEntries.Add(playGameMenuEntry);
             MenuEntries.Add(optionsMenuEntry);
             MenuEntries.Add(exitMenuEntry);
+
+            this.game = game;
+
+            if(this.game.Components.Count > 3)
+            {
+                this.game.Components.RemoveAt(this.game.Components.Count - 1);
+            }
+
         }
 
         /// <summary>
@@ -67,7 +77,7 @@ namespace A_Worrior_For_Fun.Screens
         /// <param name="e"></param>
         private void PlayGameMenuEntrySelected(object sender, PlayerIndexEventArgs e)
         {
-            LoadingScreen.Load(ScreenManager, true, e.PlayerIndex, new GameplayScreen()); //, new CutSceneScreen());
+            LoadingScreen.Load(ScreenManager, true, e.PlayerIndex, new GameplayScreen(game)); //, new CutSceneScreen());
         }
 
         /// <summary>

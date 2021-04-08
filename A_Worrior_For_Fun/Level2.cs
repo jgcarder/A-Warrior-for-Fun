@@ -1,4 +1,8 @@
-﻿using System;
+﻿/* File: Level2.cs
+ * Author: Jackson Carder
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.Xna.Framework;
@@ -8,6 +12,7 @@ using Microsoft.Xna.Framework.Content;
 using A_Worrior_For_Fun.Collisions;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Media;
+using A_Worrior_For_Fun.Particles;
 
 namespace A_Worrior_For_Fun
 {
@@ -30,6 +35,10 @@ namespace A_Worrior_For_Fun
         private bool won = false;
         private bool lost = false;
         private int hp;
+
+        private LightBloodParticleSystem _lightBlood;
+        private RainParticleSystem _rain;
+        private ExplosionParticleSystem _explosion;
 
         //Moving sprites and health
         private EnemySprite[] enemiesH;
@@ -89,7 +98,7 @@ namespace A_Worrior_For_Fun
         /// Constructor that Takes in an int.
         /// </summary>
         /// <param name="previousHp">The Hp from the previous level</param>
-        public Level2(int previousHp)
+        public Level2(int previousHp, Game game)
         {
             System.Random rand = new Random();
 
@@ -121,6 +130,15 @@ namespace A_Worrior_For_Fun
                 new EnemySprite3(new Vector2((float)rand.Next(350, 1900), (float)rand.Next(50, 450))),
                 new EnemySprite3(new Vector2((float)rand.Next(350, 1900), (float)rand.Next(50, 450)))
             };
+
+            _lightBlood = new LightBloodParticleSystem(game, 30);
+            game.Components.Add(_lightBlood);
+
+            _explosion = new ExplosionParticleSystem(game, 10);
+            game.Components.Add(_explosion);
+
+            _rain = new RainParticleSystem(game, new Rectangle(0, -20, 3000, 10));
+            game.Components.Add(_rain);
         }
 
         /// <summary>
@@ -211,7 +229,12 @@ namespace A_Worrior_For_Fun
                             numEnemies--;
                             enemy.Killed = true;
                             basicEnemyHit.Play();
-
+                            Vector2 temp = enemy.Position; ;
+                            if (350 - player.Position.X <= 0)
+                            {
+                                temp = new Vector2(enemy.Position.X - Math.Abs(350 - player.Position.X), enemy.Position.Y);
+                            }
+                            _lightBlood.PlaceFirework(temp);
                         }
                         break;
                     case Attack.Right:
@@ -221,6 +244,12 @@ namespace A_Worrior_For_Fun
                             numEnemies--;
                             enemy.Killed = true;
                             basicEnemyHit.Play();
+                            Vector2 temp = enemy.Position; ;
+                            if (350 - player.Position.X <= 0)
+                            {
+                                temp = new Vector2(enemy.Position.X - Math.Abs(350 - player.Position.X), enemy.Position.Y);
+                            }
+                            _lightBlood.PlaceFirework(temp);
                         }
                         break;
                     case Attack.Down:
@@ -230,6 +259,12 @@ namespace A_Worrior_For_Fun
                             numEnemies--;
                             enemy.Killed = true;
                             basicEnemyHit.Play();
+                            Vector2 temp = enemy.Position; ;
+                            if (350 - player.Position.X <= 0)
+                            {
+                                temp = new Vector2(enemy.Position.X - Math.Abs(350 - player.Position.X), enemy.Position.Y);
+                            }
+                            _lightBlood.PlaceFirework(temp);
                         }
                         break;
                     case Attack.Left:
@@ -239,6 +274,12 @@ namespace A_Worrior_For_Fun
                             numEnemies--;
                             enemy.Killed = true;
                             basicEnemyHit.Play();
+                            Vector2 temp = enemy.Position; ;
+                            if (350 - player.Position.X <= 0)
+                            {
+                                temp = new Vector2(enemy.Position.X - Math.Abs(350 - player.Position.X), enemy.Position.Y);
+                            }
+                            _lightBlood.PlaceFirework(temp);
                         }
                         break;
                     case Attack.None:
@@ -253,6 +294,7 @@ namespace A_Worrior_For_Fun
                     player.Color = Color.Red;
                     player.Position = new Vector2(100, 250);
                     playerHit.Play();
+                    _explosion.PlaceExplosion(player.Position);
                 }
 
             }
@@ -269,6 +311,12 @@ namespace A_Worrior_For_Fun
                             numEnemies--;
                             enemy.Killed = true;
                             basicEnemyHit.Play();
+                            Vector2 temp = enemy.Position; ;
+                            if (350 - player.Position.X <= 0)
+                            {
+                                temp = new Vector2(enemy.Position.X - Math.Abs(350 - player.Position.X), enemy.Position.Y);
+                            }
+                            _lightBlood.PlaceFirework(temp);
                         }
                         break;
                     case Attack.Right:
@@ -278,6 +326,12 @@ namespace A_Worrior_For_Fun
                             numEnemies--;
                             enemy.Killed = true;
                             basicEnemyHit.Play();
+                            Vector2 temp = enemy.Position; ;
+                            if (350 - player.Position.X <= 0)
+                            {
+                                temp = new Vector2(enemy.Position.X - Math.Abs(350 - player.Position.X), enemy.Position.Y);
+                            }
+                            _lightBlood.PlaceFirework(temp);
                         }
                         break;
                     case Attack.Down:
@@ -287,6 +341,12 @@ namespace A_Worrior_For_Fun
                             numEnemies--;
                             enemy.Killed = true;
                             basicEnemyHit.Play();
+                            Vector2 temp = enemy.Position; ;
+                            if (350 - player.Position.X <= 0)
+                            {
+                                temp = new Vector2(enemy.Position.X - Math.Abs(350 - player.Position.X), enemy.Position.Y);
+                            }
+                            _lightBlood.PlaceFirework(temp);
                         }
                         break;
                     case Attack.Left:
@@ -296,6 +356,12 @@ namespace A_Worrior_For_Fun
                             numEnemies--;
                             enemy.Killed = true;
                             basicEnemyHit.Play();
+                            Vector2 temp = enemy.Position; ;
+                            if (350 - player.Position.X <= 0)
+                            {
+                                temp = new Vector2(enemy.Position.X - Math.Abs(350 - player.Position.X), enemy.Position.Y);
+                            }
+                            _lightBlood.PlaceFirework(temp);
                         }
                         break;
                     case Attack.None:
@@ -310,6 +376,7 @@ namespace A_Worrior_For_Fun
                     player.Color = Color.Red;
                     player.Position = new Vector2(100, 250);
                     playerHit.Play();
+                    _explosion.PlaceExplosion(player.Position);
                 }
 
             }
@@ -326,6 +393,12 @@ namespace A_Worrior_For_Fun
                             numEnemies--;
                             enemy.Killed = true;
                             basicEnemyHit.Play();
+                            Vector2 temp = enemy.Position; ;
+                            if (350 - player.Position.X <= 0)
+                            {
+                                temp = new Vector2(enemy.Position.X - Math.Abs(350 - player.Position.X), enemy.Position.Y);
+                            }
+                            _lightBlood.PlaceFirework(temp);
                         }
                         break;
                     case Attack.Right:
@@ -335,6 +408,12 @@ namespace A_Worrior_For_Fun
                             numEnemies--;
                             enemy.Killed = true;
                             basicEnemyHit.Play();
+                            Vector2 temp = enemy.Position; ;
+                            if (350 - player.Position.X <= 0)
+                            {
+                                temp = new Vector2(enemy.Position.X - Math.Abs(350 - player.Position.X), enemy.Position.Y);
+                            }
+                            _lightBlood.PlaceFirework(temp);
                         }
                         break;
                     case Attack.Down:
@@ -344,6 +423,12 @@ namespace A_Worrior_For_Fun
                             numEnemies--;
                             enemy.Killed = true;
                             basicEnemyHit.Play();
+                            Vector2 temp = enemy.Position; ;
+                            if (350 - player.Position.X <= 0)
+                            {
+                                temp = new Vector2(enemy.Position.X - Math.Abs(350 - player.Position.X), enemy.Position.Y);
+                            }
+                            _lightBlood.PlaceFirework(temp);
                         }
                         break;
                     case Attack.Left:
@@ -353,6 +438,12 @@ namespace A_Worrior_For_Fun
                             numEnemies--;
                             enemy.Killed = true;
                             basicEnemyHit.Play();
+                            Vector2 temp = enemy.Position; ;
+                            if (350 - player.Position.X <= 0)
+                            {
+                                temp = new Vector2(enemy.Position.X - Math.Abs(350 - player.Position.X), enemy.Position.Y);
+                            }
+                            _lightBlood.PlaceFirework(temp);
                         }
                         break;
                     case Attack.None:
@@ -367,6 +458,7 @@ namespace A_Worrior_For_Fun
                     player.Color = Color.Red;
                     player.Position = new Vector2(100, 250);
                     playerHit.Play();
+                    _explosion.PlaceExplosion(player.Position);
                 }
 
             }

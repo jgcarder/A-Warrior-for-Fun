@@ -1,4 +1,8 @@
-﻿using System;
+﻿/* File: RainParticleSystem.cs
+ * Author: Nathan Bean
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.Xna.Framework;

@@ -43,6 +43,14 @@ namespace A_Worrior_For_Fun
         /// </summary>
         public bool Killed { get; set; } = false;
 
+        public Vector2 Position
+        {
+            get
+            {
+                return position;
+            }
+        }
+
         /// <summary>
         /// Constructor used for creating enemies
         /// </summary>

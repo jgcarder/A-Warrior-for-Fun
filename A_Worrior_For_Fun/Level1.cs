@@ -12,6 +12,7 @@ using Microsoft.Xna.Framework.Content;
 using A_Worrior_For_Fun.Collisions;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Media;
+using A_Worrior_For_Fun.Particles;
 
 namespace A_Worrior_For_Fun
 {
@@ -37,6 +38,9 @@ namespace A_Worrior_For_Fun
         private bool won = false;
         private bool lost = false;
         private int hp;
+
+        private LightBloodParticleSystem lightBlood;
+        private ExplosionParticleSystem _explosion;
 
         //Moving sprites and health
         private EnemySprite[] enemiesH;
@@ -83,7 +87,7 @@ namespace A_Worrior_For_Fun
         /// Constructor that Takes in an int.
         /// </summary>
         /// <param name="previousHp">The Hp from the previous level</param>
-        public Level1(int previousHp)
+        public Level1(int previousHp, Game game)
         {
             System.Random rand = new Random();
 
@@ -106,6 +110,12 @@ namespace A_Worrior_For_Fun
                 new EnemySprite2(new Vector2((float)rand.Next(50, 750), (float)rand.Next(200, 300)), false),
                 new EnemySprite2(new Vector2((float)rand.Next(50, 750), (float)rand.Next(200, 300)), false)
             };
+
+            lightBlood = new LightBloodParticleSystem(game, 30);
+            game.Components.Add(lightBlood);
+
+            _explosion = new ExplosionParticleSystem(game, 10);
+            game.Components.Add(_explosion);
         }
 
         /// <summary>
@@ -176,7 +186,7 @@ namespace A_Worrior_For_Fun
                             numEnemies--;
                             enemy.Killed = true;
                             basicEnemyHit.Play();
-
+                            lightBlood.PlaceFirework(enemy.Position);
                         }
                         break;
                     case Attack.Right:
@@ -186,6 +196,7 @@ namespace A_Worrior_For_Fun
                             numEnemies--;
                             enemy.Killed = true;
                             basicEnemyHit.Play();
+                            lightBlood.PlaceFirework(enemy.Position);
                         }
                         break;
                     case Attack.Down:
@@ -195,6 +206,7 @@ namespace A_Worrior_For_Fun
                             numEnemies--;
                             enemy.Killed = true;
                             basicEnemyHit.Play();
+                            lightBlood.PlaceFirework(enemy.Position);
                         }
                         break;
                     case Attack.Left:
@@ -204,6 +216,7 @@ namespace A_Worrior_For_Fun
                             numEnemies--;
                             enemy.Killed = true;
                             basicEnemyHit.Play();
+                            lightBlood.PlaceFirework(enemy.Position);
                         }
                         break;
                     case Attack.None:
@@ -218,6 +231,7 @@ namespace A_Worrior_For_Fun
                     player.Color = Color.Red;
                     player.Position = new Vector2(100, 250);
                     playerHit.Play();
+                    _explosion.PlaceExplosion(player.Position);
                 }
 
             }
@@ -234,6 +248,7 @@ namespace A_Worrior_For_Fun
                             numEnemies--;
                             enemy.Killed = true;
                             basicEnemyHit.Play();
+                            lightBlood.PlaceFirework(enemy.Position);
                         }
                         break;
                     case Attack.Right:
@@ -243,6 +258,7 @@ namespace A_Worrior_For_Fun
                             numEnemies--;
                             enemy.Killed = true;
                             basicEnemyHit.Play();
+                            lightBlood.PlaceFirework(enemy.Position);
                         }
                         break;
                     case Attack.Down:
@@ -252,6 +268,7 @@ namespace A_Worrior_For_Fun
                             numEnemies--;
                             enemy.Killed = true;
                             basicEnemyHit.Play();
+                            lightBlood.PlaceFirework(enemy.Position);
                         }
                         break;
                     case Attack.Left:
@@ -261,6 +278,7 @@ namespace A_Worrior_For_Fun
                             numEnemies--;
                             enemy.Killed = true;
                             basicEnemyHit.Play();
+                            lightBlood.PlaceFirework(enemy.Position);
                         }
                         break;
                     case Attack.None:
@@ -275,6 +293,7 @@ namespace A_Worrior_For_Fun
                     player.Color = Color.Red;
                     player.Position = new Vector2(100, 250);
                     playerHit.Play();
+                    _explosion.PlaceExplosion(player.Position);
                 }
 
             }

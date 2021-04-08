@@ -1,4 +1,8 @@
-﻿using System;
+﻿/* File: ScreenFactory.cs
+ * Author: Jackson Carder
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Text;
 using A_Worrior_For_Fun.StateManagement;

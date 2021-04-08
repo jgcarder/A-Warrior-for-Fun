@@ -1,4 +1,8 @@
-﻿using System;
+﻿/* File: ScreenManager.cs
+ * Author: Jackson Carder
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.Xna.Framework;
@@ -22,6 +26,8 @@ namespace A_Worrior_For_Fun.StateManagement
 
         private bool _isInitialized;
 
+        private Game storedGame;
+
         /// <summary>
         /// A SpriteBatch shared by all GameScreens
         /// </summary>
@@ -37,6 +43,14 @@ namespace A_Worrior_For_Fun.StateManagement
         /// </summary>
         public Texture2D BlankTexture { get; private set; }
 
+        public Game StoredGame
+        {
+            get
+            {
+                return storedGame;
+            }
+        }
+
         /// <summary>
         /// Constructs a new ScreenManager
         /// </summary>
@@ -44,6 +58,7 @@ namespace A_Worrior_For_Fun.StateManagement
         public ScreenManager(Game game) : base(game)
         {
             _content = new ContentManager(game.Services, "Content");
+            storedGame = game;
         }
 
         /// <summary>

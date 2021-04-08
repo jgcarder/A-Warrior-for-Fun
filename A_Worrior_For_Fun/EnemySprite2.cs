@@ -44,6 +44,17 @@ namespace A_Worrior_For_Fun
         public bool Killed { get; set; } = false;
 
         /// <summary>
+        /// The position of the enemysprite
+        /// </summary>
+        public Vector2 Position
+        {
+            get
+            {
+                return position;
+            }
+        }
+
+        /// <summary>
         /// Constructor used for creating enemies
         /// </summary>
         /// <param name="position">The starting position</param>

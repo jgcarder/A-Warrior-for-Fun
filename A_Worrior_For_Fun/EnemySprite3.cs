@@ -1,4 +1,8 @@
-﻿using System;
+﻿/* File: EnemySprite3.cs
+ * Author: Jackson Carder
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.Xna.Framework;
@@ -9,6 +13,9 @@ using A_Worrior_For_Fun.Collisions;
 
 namespace A_Worrior_For_Fun
 {
+    /// <summary>
+    /// A class for the enemy that moves in ALL directions
+    /// </summary>
     public class EnemySprite3
     {
 
@@ -41,6 +48,17 @@ namespace A_Worrior_For_Fun
         /// Whether it has been killed or not.
         /// </summary>
         public bool Killed { get; set; } = false;
+
+        /// <summary>
+        /// The position
+        /// </summary>
+        public Vector2 Position
+        {
+            get
+            {
+                return position;
+            }
+        }
 
         /// <summary>
         /// The player position when nearby.

@@ -52,6 +52,8 @@ namespace A_Worrior_For_Fun.Screens
         private GamePadState gamePadState;
         private GamePadState previousGamePadState;
 
+        private Game _game;
+
 
         private readonly Random _random = new Random();
 
@@ -61,7 +63,7 @@ namespace A_Worrior_For_Fun.Screens
         /// <summary>
         /// The constructor for the GameplayScreen
         /// </summary>
-        public GameplayScreen()
+        public GameplayScreen(Game game)
         {
             TransitionOnTime = TimeSpan.FromSeconds(1.5);
             TransitionOffTime = TimeSpan.FromSeconds(0.5);
@@ -70,7 +72,9 @@ namespace A_Worrior_For_Fun.Screens
                 new[] { Buttons.Start, Buttons.Back },
                 new[] { Keys.Back, Keys.Escape }, true);
 
-            level0 = new Level0();
+            _game = game;
+
+            level0 = new Level0(_game);//ScreenManager.Game);
             level1 = new Level1();
             level2 = new Level2();
         }
@@ -232,7 +236,7 @@ namespace A_Worrior_For_Fun.Screens
             PlayerIndex player;
             if (_pauseAction.Occurred(input, ControllingPlayer, out player) || gamePadDisconnected)
             {
-                ScreenManager.AddScreen(new PauseMenuScreen(), ControllingPlayer);
+                ScreenManager.AddScreen(new PauseMenuScreen(_game), ControllingPlayer);
             }
             else
             {
@@ -251,7 +255,7 @@ namespace A_Worrior_For_Fun.Screens
                         {
                             levelComplete.Play();
                             levelState = LevelState.One;
-                            level1 = new Level1(level0.HP);
+                            level1 = new Level1(level0.HP, ScreenManager.StoredGame);
                             LoadState();
                         }
                         if (level0.Lost)
@@ -266,7 +270,7 @@ namespace A_Worrior_For_Fun.Screens
                         {
                             levelComplete.Play();
                             levelState = LevelState.Two;
-                            level2 = new Level2(level1.HP);
+                            level2 = new Level2(level1.HP, ScreenManager.StoredGame);
                             LoadState();
 
                         }
@@ -293,7 +297,7 @@ namespace A_Worrior_For_Fun.Screens
                     case LevelState.EndW:
                         if (keyboardState.IsKeyDown(Keys.Space) && previousKeyboardState.IsKeyUp(Keys.Space))
                         {
-                            MainMenuScreen mms = new MainMenuScreen();
+                            MainMenuScreen mms = new MainMenuScreen(_game);
                             mms.ContentPasser(_content);
 
                             LoadingScreen.Load(ScreenManager, false, null, new BackgroundScreen(), mms);
@@ -302,7 +306,7 @@ namespace A_Worrior_For_Fun.Screens
                     case LevelState.EndL:
                         if (keyboardState.IsKeyDown(Keys.Space) && previousKeyboardState.IsKeyUp(Keys.Space))
                         {
-                            MainMenuScreen mms = new MainMenuScreen();
+                            MainMenuScreen mms = new MainMenuScreen(_game);
                             mms.ContentPasser(_content);
 
                             LoadingScreen.Load(ScreenManager, false, null, new BackgroundScreen(), mms);
