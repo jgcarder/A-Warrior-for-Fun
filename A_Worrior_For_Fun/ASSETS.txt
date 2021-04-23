@@ -21,3 +21,7 @@ Content/PlayerHit.wav - created by Jackson Carder for this project
 Content/SwordSwing.wav - created by Jackson Carder for this project
 
 All blanks avaiolable at https://github.com/tomizechsterson/game-state-management-monogame
+
+Content/Explosion.png & Content/Smoke.png- provided by the XNA project samples under the Microsoft Permissive License (https://github.com/CartBlanche/MonoGame-Samples)
+
+Content/drop.png, Content/circle.png, and Content/particle.png created by Nathan Bean for this tutorial and released into the public domain.

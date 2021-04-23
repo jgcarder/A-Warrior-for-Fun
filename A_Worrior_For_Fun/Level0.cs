@@ -285,6 +285,12 @@ namespace A_Worrior_For_Fun
             var source1 = new Rectangle(64 + 16 * 1, 0, 16, 16);
             var source2 = new Rectangle(64 + 16 * 2, 0, 16, 16);
             var source3 = new Rectangle(64 + 16 * 3, 0, 16, 16);
+
+            var source4 = new Rectangle(20 * 16, 3 * 16, 32, 32);
+            var source5 = new Rectangle(33 * 16, 10 * 16, 16, 16);
+            spriteBatch.Draw(texture, new Vector2(100 - 48, 250 - 48), source4, Color.DarkSlateBlue, 0f, new Vector2(), 2f, SpriteEffects.None, 0);
+            spriteBatch.Draw(texture, new Vector2(100 - 32, 250 - 32), source5, Color.White, 0f, new Vector2(), 2f, SpriteEffects.None, 0);
+
             spriteBatch.Draw(texture, new Vector2(77, 44), source1, Color.White, 0f, new Vector2(), 2f, SpriteEffects.None, 0);
             spriteBatch.Draw(texture, new Vector2(700, 300), source1, Color.White, 0f, new Vector2(), 2f, SpriteEffects.None, 0);
             spriteBatch.Draw(texture, new Vector2(69, 444), source1, Color.White, 0f, new Vector2(), 2f, SpriteEffects.None, 0);

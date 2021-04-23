@@ -64,6 +64,7 @@ namespace A_Worrior_For_Fun
 
         //Sound effects
         private SoundEffect swordSwing;
+        private SoundEffect movement;
 
         /// <summary>
         /// The collision bounds for the player
@@ -131,7 +132,7 @@ namespace A_Worrior_For_Fun
             velocity = new Vector2(0,0);
 
             swordSwing = content.Load<SoundEffect>("Hit_Hurt10");
-            
+            movement = content.Load<SoundEffect>("MovementChange");
 
             texture = content.Load<Texture2D>("colored_packed");
             attackTexture = content.Load<Texture2D>("colored_packed");
@@ -172,27 +173,44 @@ namespace A_Worrior_For_Fun
                 //Keyboard input
                 if (keyboardState.IsKeyDown(Keys.W))
                 {
-                    //position += new Vector2(0, -2);
-                    acceleration.Y += -1;
+                    position += new Vector2(0, -2);
+                    //acceleration.Y += -1;
                 }
                 if (keyboardState.IsKeyDown(Keys.S))
                 {
-                    //position += new Vector2(0, 2);
-                    acceleration.Y += 1;
+                    position += new Vector2(0, 2);
+                    //acceleration.Y += 1;
                 }
                 if (keyboardState.IsKeyDown(Keys.D))
                 {
-                    //position += new Vector2(2, 0);
-                    acceleration.X += 1;
+                    position += new Vector2(2, 0);
+                    //acceleration.X += 1;
                     flipped = false;
                 }
                 if (keyboardState.IsKeyDown(Keys.A))
                 {
-                    //position += new Vector2(-2, 0);
-                    acceleration.X += -1;
+                    position += new Vector2(-2, 0);
+                    //acceleration.X += -1;
                     flipped = true;
                 }
+                if (keyboardState.IsKeyDown(Keys.W) && previousKeyboardState.IsKeyUp(Keys.W))
+                {
+                    movement.Play();
+                }
+                if (keyboardState.IsKeyDown(Keys.S) && previousKeyboardState.IsKeyUp(Keys.S))
+                {
+                    movement.Play();
+                }
+                if (keyboardState.IsKeyDown(Keys.D) && previousKeyboardState.IsKeyUp(Keys.D))
+                {
+                    movement.Play();
+                }
+                if (keyboardState.IsKeyDown(Keys.A) && previousKeyboardState.IsKeyUp(Keys.A))
+                {
+                    movement.Play();
+                }
 
+                /*
                 velocity += acceleration * t * 150;
                 position += velocity * t;
                 velocity *= 0.98f;
@@ -204,6 +222,7 @@ namespace A_Worrior_For_Fun
                 {
                     velocity.Y = 0;
                 }
+                */
 
                 //Attacking input
                 if (keyboardState.IsKeyDown(Keys.Up) && previousKeyboardState.IsKeyUp(Keys.Up))
@@ -253,8 +272,8 @@ namespace A_Worrior_For_Fun
             }
 
             //collision
-            bounds.X = position.X - 14;
-            bounds.Y = position.Y - 16;
+            bounds.X = position.X - 10;
+            bounds.Y = position.Y - 12;
 
             swordBoundUp.X = position.X + 3;
             swordBoundUp.Y = position.Y - 48;

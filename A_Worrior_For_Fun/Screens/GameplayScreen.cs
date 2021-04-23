@@ -45,6 +45,7 @@ namespace A_Worrior_For_Fun.Screens
         //private Song song1;
         private SoundEffect levelComplete;
         private SoundEffect lose;
+        private SoundEffect levelTransport;
         private SpriteFont bangers;
 
         private KeyboardState keyboardState;
@@ -112,6 +113,7 @@ namespace A_Worrior_For_Fun.Screens
 
             levelComplete = _content.Load<SoundEffect>("LevelComplete");
             lose = _content.Load<SoundEffect>("GameOver");
+            levelTransport = _content.Load<SoundEffect>("LevelTransport");
 
             bangers = _content.Load<SpriteFont>("Bangers");
 
@@ -157,6 +159,7 @@ namespace A_Worrior_For_Fun.Screens
 
             levelComplete = _content.Load<SoundEffect>("LevelComplete");
             lose = _content.Load<SoundEffect>("GameOver");
+            levelTransport = _content.Load<SoundEffect>("LevelTransport");
 
             bangers = _content.Load<SpriteFont>("Bangers");
 
@@ -253,7 +256,7 @@ namespace A_Worrior_For_Fun.Screens
                         level0.Update(gameTime);
                         if (level0.Won)
                         {
-                            levelComplete.Play();
+                            levelTransport.Play();
                             levelState = LevelState.One;
                             level1 = new Level1(level0.HP, ScreenManager.StoredGame);
                             LoadState();
@@ -268,7 +271,7 @@ namespace A_Worrior_For_Fun.Screens
                         level1.Update(gameTime);
                         if (level1.Won)
                         {
-                            levelComplete.Play();
+                            levelTransport.Play();
                             levelState = LevelState.Two;
                             level2 = new Level2(level1.HP, ScreenManager.StoredGame);
                             LoadState();
@@ -339,7 +342,8 @@ namespace A_Worrior_For_Fun.Screens
                     spriteBatch.Begin(samplerState: SamplerState.PointClamp);
                     spriteBatch.DrawString(bangers, "Welcome Warrior For Fun!", new Vector2(175, 100), Color.White, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0);
                     spriteBatch.DrawString(bangers, "WASD to move and arrows to attack", new Vector2(105, 150), Color.White, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0);
-                    spriteBatch.DrawString(bangers, "Press [Space] to Begin!", new Vector2(195, 200), Color.White, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0);
+                    spriteBatch.DrawString(bangers, "Slay all enemies to progress stages", new Vector2(95, 200), Color.White, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0);
+                    spriteBatch.DrawString(bangers, "Press [Space] to Begin!", new Vector2(195, 250), Color.White, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0);
                     spriteBatch.End();
                     break;
                 case LevelState.Zero:

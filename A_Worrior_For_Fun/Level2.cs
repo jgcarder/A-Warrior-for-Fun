@@ -493,6 +493,11 @@ namespace A_Worrior_For_Fun
             spriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: transform);
             spriteBatch.Draw(_background, Vector2.Zero, Color.White);
 
+            var source4 = new Rectangle(20 * 16, 3 * 16, 32, 32);
+            var source5 = new Rectangle(33 * 16, 10 * 16, 16, 16);
+            spriteBatch.Draw(texture, new Vector2(100 - 48, 250 - 48), source4, Color.DarkSlateBlue, 0f, new Vector2(), 2f, SpriteEffects.None, 0);
+            spriteBatch.Draw(texture, new Vector2(100 - 32, 250 - 32), source5, Color.White, 0f, new Vector2(), 2f, SpriteEffects.None, 0);
+
             var source = new Rectangle(80, 32, 16, 16);
             for (int i = 0; i < 16; i++)
             {
