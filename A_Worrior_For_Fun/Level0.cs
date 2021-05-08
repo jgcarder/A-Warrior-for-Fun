@@ -50,8 +50,10 @@ namespace A_Worrior_For_Fun
         private SoundEffect playerHit;
         private SoundEffect basicEnemyHit;
 
+        private SpriteFont _spriteFont;
+
         private LightBloodParticleSystem lightBlood;
-        private ExplosionParticleSystem _explosion;
+        //private ExplosionParticleSystem _explosion;
 
         /// <summary>
         /// Constructor for the level.
@@ -77,8 +79,8 @@ namespace A_Worrior_For_Fun
             lightBlood = new LightBloodParticleSystem(game, 30);
             game.Components.Add(lightBlood);
 
-            _explosion = new ExplosionParticleSystem(game, 10);
-            game.Components.Add(_explosion);
+            //_explosion = new ExplosionParticleSystem(game, 10);
+            //game.Components.Add(_explosion);
 
         }
 
@@ -90,6 +92,8 @@ namespace A_Worrior_For_Fun
         {
             playerHit = content.Load<SoundEffect>("PlayerHit");
             basicEnemyHit = content.Load<SoundEffect>("BasicEnemyHit");
+
+            _spriteFont = content.Load<SpriteFont>("Bangers");
 
             health.LoadContent(content);
             player.LoadContent(content);
@@ -195,7 +199,7 @@ namespace A_Worrior_For_Fun
                     player.Color = Color.Red;
                     player.Position = new Vector2(100, 250);
                     playerHit.Play();
-                    _explosion.PlaceExplosion(player.Position);
+                    //_explosion.PlaceExplosion(player.Position);
                 }
 
             }
@@ -257,7 +261,7 @@ namespace A_Worrior_For_Fun
                     player.Color = Color.Red;
                     player.Position = new Vector2(100, 250);
                     playerHit.Play();
-                    _explosion.PlaceExplosion(player.Position);
+                    //_explosion.PlaceExplosion(player.Position);
                 }
 
             }
@@ -321,6 +325,7 @@ namespace A_Worrior_For_Fun
             //Drawing player and health
             player.Draw(gameTime, spriteBatch);
             health.Draw(gameTime, spriteBatch);
+            spriteBatch.DrawString(_spriteFont, "" + numEnemies, new Vector2(health.Position.X + 50, health.Position.Y), Color.White);
 
         }
 

@@ -173,24 +173,24 @@ namespace A_Worrior_For_Fun
                 //Keyboard input
                 if (keyboardState.IsKeyDown(Keys.W))
                 {
-                    position += new Vector2(0, -2);
-                    //acceleration.Y += -1;
+                    //position += new Vector2(0, -2);
+                    acceleration.Y += -1.1f;
                 }
                 if (keyboardState.IsKeyDown(Keys.S))
                 {
-                    position += new Vector2(0, 2);
-                    //acceleration.Y += 1;
+                    //position += new Vector2(0, 2);
+                    acceleration.Y += 1.1f;
                 }
                 if (keyboardState.IsKeyDown(Keys.D))
                 {
-                    position += new Vector2(2, 0);
-                    //acceleration.X += 1;
+                    //position += new Vector2(2, 0);
+                    acceleration.X += 1.1f;
                     flipped = false;
                 }
                 if (keyboardState.IsKeyDown(Keys.A))
                 {
-                    position += new Vector2(-2, 0);
-                    //acceleration.X += -1;
+                    //position += new Vector2(-2, 0);
+                    acceleration.X += -1.1f;
                     flipped = true;
                 }
                 if (keyboardState.IsKeyDown(Keys.W) && previousKeyboardState.IsKeyUp(Keys.W))
@@ -210,19 +210,19 @@ namespace A_Worrior_For_Fun
                     movement.Play();
                 }
 
-                /*
+                
                 velocity += acceleration * t * 150;
                 position += velocity * t;
-                velocity *= 0.98f;
-                if(Math.Abs(velocity.X) <= 2)
+                velocity *= 0.97f;
+                if(Math.Abs(velocity.X) <= 2.1)
                 {
                     velocity.X = 0;
                 }
-                if (Math.Abs(velocity.Y) <= 2)
+                if (Math.Abs(velocity.Y) <= 2.1)
                 {
                     velocity.Y = 0;
                 }
-                */
+                
 
                 //Attacking input
                 if (keyboardState.IsKeyDown(Keys.Up) && previousKeyboardState.IsKeyUp(Keys.Up))

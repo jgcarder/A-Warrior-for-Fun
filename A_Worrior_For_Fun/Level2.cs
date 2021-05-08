@@ -38,7 +38,7 @@ namespace A_Worrior_For_Fun
 
         private LightBloodParticleSystem _lightBlood;
         private RainParticleSystem _rain;
-        private ExplosionParticleSystem _explosion;
+        //private ExplosionParticleSystem _explosion;
 
         //Moving sprites and health
         private EnemySprite[] enemiesH;
@@ -51,6 +51,8 @@ namespace A_Worrior_For_Fun
         private Texture2D texture;
         private Texture2D _background;
         private Texture2D _clouds;
+
+        private SpriteFont _spriteFont;
 
         //Sound stuff
         private SoundEffect playerHit;
@@ -109,19 +111,19 @@ namespace A_Worrior_For_Fun
 
             enemiesH = new EnemySprite[]
             {
-                new EnemySprite(new Vector2((float)rand.Next(200, 1800), (float)rand.Next(50, 450)), true),
-                new EnemySprite(new Vector2((float)rand.Next(200, 1800), (float)rand.Next(50, 450)), true),
-                new EnemySprite(new Vector2((float)rand.Next(200, 1800), (float)rand.Next(50, 450)), false),
-                new EnemySprite(new Vector2((float)rand.Next(200, 1800), (float)rand.Next(50, 450)), false),
-                new EnemySprite(new Vector2((float)rand.Next(200, 1800), (float)rand.Next(50, 450)), false)
+                new EnemySprite(new Vector2((float)rand.Next(300, 1800), (float)rand.Next(50, 450)), true),
+                new EnemySprite(new Vector2((float)rand.Next(300, 1800), (float)rand.Next(50, 450)), true),
+                new EnemySprite(new Vector2((float)rand.Next(300, 1800), (float)rand.Next(50, 450)), false),
+                new EnemySprite(new Vector2((float)rand.Next(300, 1800), (float)rand.Next(50, 450)), false),
+                new EnemySprite(new Vector2((float)rand.Next(300, 1800), (float)rand.Next(50, 450)), false)
             };
             enemiesV = new EnemySprite2[]
             {
-                new EnemySprite2(new Vector2((float)rand.Next(50, 1950), (float)rand.Next(200, 300)), true),
-                new EnemySprite2(new Vector2((float)rand.Next(50, 1950), (float)rand.Next(200, 300)), true),
-                new EnemySprite2(new Vector2((float)rand.Next(50, 1950), (float)rand.Next(200, 300)), false),
-                new EnemySprite2(new Vector2((float)rand.Next(50, 1950), (float)rand.Next(200, 300)), false),
-                new EnemySprite2(new Vector2((float)rand.Next(50, 1950), (float)rand.Next(200, 300)), true)
+                new EnemySprite2(new Vector2((float)rand.Next(100, 1950), (float)rand.Next(200, 300)), true),
+                new EnemySprite2(new Vector2((float)rand.Next(100, 1950), (float)rand.Next(200, 300)), true),
+                new EnemySprite2(new Vector2((float)rand.Next(100, 1950), (float)rand.Next(200, 300)), false),
+                new EnemySprite2(new Vector2((float)rand.Next(100, 1950), (float)rand.Next(200, 300)), false),
+                new EnemySprite2(new Vector2((float)rand.Next(100, 1950), (float)rand.Next(200, 300)), true)
             };
             enemiesO = new EnemySprite3[]
             {
@@ -134,8 +136,8 @@ namespace A_Worrior_For_Fun
             _lightBlood = new LightBloodParticleSystem(game, 30);
             game.Components.Add(_lightBlood);
 
-            _explosion = new ExplosionParticleSystem(game, 10);
-            game.Components.Add(_explosion);
+            //_explosion = new ExplosionParticleSystem(game, 10);
+            //game.Components.Add(_explosion);
 
             _rain = new RainParticleSystem(game, new Rectangle(0, -20, 3000, 10));
             game.Components.Add(_rain);
@@ -152,6 +154,8 @@ namespace A_Worrior_For_Fun
 
             health.LoadContent(content);
             player.LoadContent(content);
+
+            _spriteFont = content.Load<SpriteFont>("Bangers");
 
             foreach (var enemy in enemiesH)
             {
@@ -294,7 +298,7 @@ namespace A_Worrior_For_Fun
                     player.Color = Color.Red;
                     player.Position = new Vector2(100, 250);
                     playerHit.Play();
-                    _explosion.PlaceExplosion(player.Position);
+                    //_explosion.PlaceExplosion(player.Position);
                 }
 
             }
@@ -376,7 +380,7 @@ namespace A_Worrior_For_Fun
                     player.Color = Color.Red;
                     player.Position = new Vector2(100, 250);
                     playerHit.Play();
-                    _explosion.PlaceExplosion(player.Position);
+                    //_explosion.PlaceExplosion(player.Position);
                 }
 
             }
@@ -458,7 +462,7 @@ namespace A_Worrior_For_Fun
                     player.Color = Color.Red;
                     player.Position = new Vector2(100, 250);
                     playerHit.Play();
-                    _explosion.PlaceExplosion(player.Position);
+                    //_explosion.PlaceExplosion(player.Position);
                 }
 
             }
@@ -530,12 +534,14 @@ namespace A_Worrior_For_Fun
                 health.Position = new Vector2(3, 432);
             }
             health.Draw(gameTime, spriteBatch);
+            spriteBatch.DrawString(_spriteFont, "" + numEnemies, new Vector2(health.Position.X + 50, health.Position.Y), Color.White);
 
             spriteBatch.End();
 
             transform = Matrix.CreateTranslation(offsetX * 1.1f, 0, 0);
             spriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: transform);
             spriteBatch.Draw(_clouds, Vector2.Zero, Color.White);
+            spriteBatch.DrawString(_spriteFont, "" + gameTime.TotalGameTime, Vector2.Zero, Color.White);
             spriteBatch.End();
 
         }

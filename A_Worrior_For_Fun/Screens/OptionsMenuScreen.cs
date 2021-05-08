@@ -147,8 +147,12 @@ namespace A_Worrior_For_Fun.Screens
         /// <param name="e"></param>
         private void SoundEffectVolumeMenuEntrySelected(object sender, PlayerIndexEventArgs e)
         {
-            _sfVolume += 5;
+            KeyboardState kb = Keyboard.GetState();
+            if (kb.IsKeyDown(Keys.LeftShift) || kb.IsKeyDown(Keys.RightShift)) _sfVolume -= 5;
+            else _sfVolume += 5;
+
             if (_sfVolume > 100) _sfVolume = 0;
+            if (_sfVolume < 0) _sfVolume = 100;
             SoundEffect.MasterVolume = 0.01f * _sfVolume;
 
             SetMenuEntryText();
@@ -161,9 +165,12 @@ namespace A_Worrior_For_Fun.Screens
         /// <param name="e"></param>
         private void VolumeMenuEntrySelected(object sender, PlayerIndexEventArgs e)
         {
-            _volume+=5;
-            if (_volume > 100) _volume = 0;
+            KeyboardState kb = Keyboard.GetState();
+            if (kb.IsKeyDown(Keys.LeftShift) || kb.IsKeyDown(Keys.RightShift)) _volume -= 5;
+            else _volume += 5;
 
+            if (_volume > 100) _volume = 0;
+            if (_volume < 0) _volume = 100;
             MediaPlayer.Volume = 0.01f * _volume;
 
             SetMenuEntryText();

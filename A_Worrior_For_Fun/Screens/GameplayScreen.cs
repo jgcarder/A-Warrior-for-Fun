@@ -55,6 +55,7 @@ namespace A_Worrior_For_Fun.Screens
 
         private Game _game;
 
+        private string _time;
 
         private readonly Random _random = new Random();
 
@@ -264,6 +265,7 @@ namespace A_Worrior_For_Fun.Screens
                         if (level0.Lost)
                         {
                             lose.Play();
+                            _time = gameTime.TotalGameTime.ToString();
                             levelState = LevelState.EndL;
                         }
                         break;
@@ -280,6 +282,7 @@ namespace A_Worrior_For_Fun.Screens
                         if (level1.Lost)
                         {
                             lose.Play();
+                            _time = gameTime.TotalGameTime.ToString();
                             levelState = LevelState.EndL;
                         }
                         break;
@@ -288,12 +291,14 @@ namespace A_Worrior_For_Fun.Screens
                         if (level2.Won)
                         {
                             levelComplete.Play();
+                            _time = gameTime.TotalGameTime.ToString();
                             levelState = LevelState.EndW;
 
                         }
                         if (level2.Lost)
                         {
                             lose.Play();
+                            _time = gameTime.TotalGameTime.ToString();
                             levelState = LevelState.EndL;
                         }
                         break;
@@ -349,11 +354,13 @@ namespace A_Worrior_For_Fun.Screens
                 case LevelState.Zero:
                     spriteBatch.Begin(samplerState: SamplerState.PointClamp);
                     level0.Draw(gameTime, spriteBatch);
+                    spriteBatch.DrawString(bangers, "" + gameTime.TotalGameTime, Vector2.Zero, Color.White);
                     spriteBatch.End();
                     break;
                 case LevelState.One:
                     spriteBatch.Begin(samplerState: SamplerState.PointClamp);
                     level1.Draw(gameTime, spriteBatch);
+                    spriteBatch.DrawString(bangers, "" + gameTime.TotalGameTime, Vector2.Zero, Color.White);
                     spriteBatch.End();
                     break;
                 case LevelState.Two:
@@ -365,6 +372,7 @@ namespace A_Worrior_For_Fun.Screens
                     spriteBatch.DrawString(bangers, "You Have WON!!!!", new Vector2(243, 100), Color.Gold, 0f, new Vector2(0, 0), 1.25f, SpriteEffects.None, 0);
                     spriteBatch.DrawString(bangers, "Press [Space] to go to the main menu", new Vector2(30, 150), Color.Gold, 0f, new Vector2(0, 0), 1.25f, SpriteEffects.None, 0);
                     spriteBatch.DrawString(bangers, "or [Esc] to open the menu", new Vector2(150, 200), Color.Gold, 0f, new Vector2(0, 0), 1.25f, SpriteEffects.None, 0);
+                    spriteBatch.DrawString(bangers, "" + gameTime.ElapsedGameTime + " Not bad, but can you do better?", new Vector2(10, 250), Color.Gold, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);
                     spriteBatch.End();
                     break;
                 case LevelState.EndL:
@@ -372,6 +380,7 @@ namespace A_Worrior_For_Fun.Screens
                     spriteBatch.DrawString(bangers, "You Have DIED!!!", new Vector2(243, 100), Color.Red, 0f, new Vector2(0, 0), 1.25f, SpriteEffects.None, 0);
                     spriteBatch.DrawString(bangers, "Press [Space] to go to the main menu", new Vector2(30, 150), Color.Red, 0f, new Vector2(0, 0), 1.25f, SpriteEffects.None, 0);
                     spriteBatch.DrawString(bangers, "or [Esc] to open the menu", new Vector2(150, 200), Color.Red, 0f, new Vector2(0, 0), 1.25f, SpriteEffects.None, 0);
+                    spriteBatch.DrawString(bangers, _time + " Not bad, but can you do better?", new Vector2(10, 250), Color.Red, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);
                     spriteBatch.End();
                     break;
             }
